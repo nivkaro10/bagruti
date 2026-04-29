@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מבחנים — בגרנט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A56E8; --blue-light: #E8EFFE; --blue-mid: #3B6FEF;
+  --dark: #0F1117; --gray-1: #F5F6FA; --gray-2: #ECEEF5;
+  --gray-3: #D0D5E8; --gray-4: #8892B0; --gray-5: #4A5278;
+  --text: #1A1D2E; --white: #FFFFFF;
+  --green: #0D9E6E; --green-light: #E6F7F2;
+  --red: #DC2626; --red-light: #FEF2F2;
+  --amber: #D97706; --amber-light: #FEF3C7;
+  --radius: 12px; --radius-sm: 8px; --radius-xl: 20px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Heebo',sans-serif; background:var(--gray-1); color:var(--text); min-height:100vh; }
+
+nav { background:white; border-bottom:1px solid var(--gray-2); padding:0 5%; }
+.nav-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:60px; }
+.logo { font-size:20px; font-weight:800; color:var(--text); text-decoration:none; }
+.logo span { color:var(--blue); }
+.back-link { font-size:14px; color:var(--gray-5); text-decoration:none; }
+.back-link:hover { color:var(--blue); }
+
+.page-wrap { max-width:800px; margin:0 auto; padding:40px 20px 60px; }
+
+/* HOME SCREEN */
+.home-screen {}
+.home-banner {
+  background:linear-gradient(135deg,#1A56E8 0%,#2563EB 100%);
+  border-radius:var(--radius-xl); padding:36px 40px; color:white; margin-bottom:28px;
+}
+.home-banner h1 { font-size:26px; font-weight:800; margin-bottom:8px; }
+.home-banner p { font-size:15px; opacity:.85; }
+.role-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px; }
+.role-card {
+  background:white; border:2px solid var(--gray-2);
+  border-radius:var(--radius-xl); padding:28px 24px;
+  cursor:pointer; transition:all .2s; text-align:center;
+}
+.role-card:hover { border-color:var(--blue); box-shadow:0 8px 32px rgba(26,86,232,.12); transform:translateY(-2px); }
+.role-icon { font-size:44px; margin-bottom:14px; }
+.role-title { font-size:18px; font-weight:800; margin-bottom:6px; }
+.role-desc { font-size:14px; color:var(--gray-5); line-height:1.6; }
+.role-badge { display:inline-block; margin-top:12px; font-size:12px; font-weight:600; padding:4px 12px; border-radius:20px; }
+.badge-blue { background:var(--blue-light); color:var(--blue); }
+.badge-green { background:var(--green-light); color:var(--green); }
+
+/* SUBJECT SELECT */
+.subject-select-screen {}
+.screen-header { margin-bottom:28px; }
+.screen-header h2 { font-size:22px; font-weight:800; margin-bottom:6px; }
+.screen-header p { font-size:14px; color:var(--gray-5); }
+.back-btn { display:inline-flex; align-items:center; gap:6px; font-size:14px; color:var(--gray-5); cursor:pointer; margin-bottom:20px; }
+.back-btn:hover { color:var(--blue); }
+
+.subject-cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:14px; }
+.subject-card {
+  background:white; border:1.5px solid var(--gray-2);
+  border-radius:var(--radius-xl); padding:20px 16px;
+  cursor:pointer; transition:all .2s; text-align:center;
+}
+.subject-card:hover { border-color:var(--blue); box-shadow:0 4px 16px rgba(26,86,232,.1); transform:translateY(-1px); }
+.subject-card-icon { font-size:32px; margin-bottom:10px; }
+.subject-card-name { font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px; }
+.subject-card-info { font-size:12px; color:var(--gray-4); }
+.difficulty-dots { display:flex; gap:4px; justify-content:center; margin-top:8px; }
+.dot { width:8px; height:8px; border-radius:50%; background:var(--gray-3); }
+.dot.filled { background:var(--blue); }
+
+/* EXAM SCREEN */
+.exam-screen {}
+.exam-header {
+  background:white; border-radius:var(--radius-xl);
+  border:1.5px solid var(--gray-2); padding:20px 24px;
+  margin-bottom:20px; display:flex; align-items:center; justify-content:space-between;
+}
+.exam-title { font-size:18px; font-weight:800; }
+.exam-subtitle { font-size:13px; color:var(--gray-5); margin-top:2px; }
+.timer { display:flex; align-items:center; gap:8px; }
+.timer-circle {
+  width:52px; height:52px; border-radius:50%;
+  border:3px solid var(--blue); display:flex; align-items:center;
+  justify-content:center; font-size:16px; font-weight:800; color:var(--blue);
+  flex-shrink:0;
+}
+.timer-label { font-size:11px; color:var(--gray-4); }
+
+.progress-track {
+  background:var(--gray-2); border-radius:4px; height:6px;
+  margin-bottom:24px; overflow:hidden;
+}
+.progress-fill { height:100%; background:var(--blue); border-radius:4px; transition:width .4s; }
+
+.question-card {
+  background:white; border-radius:var(--radius-xl);
+  border:1.5px solid var(--gray-2); padding:28px 28px 24px;
+  margin-bottom:16px;
+}
+.q-num { font-size:12px; font-weight:700; color:var(--gray-4); letter-spacing:.5px; margin-bottom:12px; }
+.q-text { font-size:16px; font-weight:600; color:var(--text); line-height:1.6; margin-bottom:20px; }
+.q-formula {
+  background:var(--gray-1); border-radius:var(--radius-sm);
+  padding:12px 16px; font-family:monospace; font-size:15px;
+  margin-bottom:18px; color:var(--text); border-right:3px solid var(--blue);
+}
+.options { display:flex; flex-direction:column; gap:10px; }
+.option {
+  display:flex; align-items:center; gap:14px;
+  padding:13px 16px; border:1.5px solid var(--gray-3);
+  border-radius:var(--radius); cursor:pointer; transition:all .15s;
+  font-size:15px; color:var(--text);
+}
+.option:hover { border-color:var(--blue); background:var(--blue-light); }
+.option.selected { border-color:var(--blue); background:var(--blue-light); }
+.option.correct { border-color:var(--green); background:var(--green-light); }
+.option.wrong { border-color:var(--red); background:var(--red-light); }
+.option-letter {
+  width:30px; height:30px; border-radius:50%;
+  background:var(--gray-2); display:flex; align-items:center;
+  justify-content:center; font-size:13px; font-weight:700;
+  flex-shrink:0; transition:all .15s;
+}
+.option.selected .option-letter { background:var(--blue); color:white; }
+.option.correct .option-letter { background:var(--green); color:white; }
+.option.wrong .option-letter { background:var(--red); color:white; }
+
+.open-answer textarea {
+  width:100%; padding:14px; border:1.5px solid var(--gray-3);
+  border-radius:var(--radius); font-size:15px;
+  font-family:'Heebo',sans-serif; color:var(--text);
+  min-height:100px; resize:vertical; outline:none;
+  transition:border-color .2s;
+}
+.open-answer textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(26,86,232,.08); }
+
+.nav-btns { display:flex; justify-content:space-between; align-items:center; }
+.btn-prev, .btn-next-q {
+  padding:11px 24px; border-radius:var(--radius);
+  font-size:14px; font-weight:600; font-family:'Heebo',sans-serif;
+  cursor:pointer; transition:all .2s;
+}
+.btn-prev { background:white; border:1.5px solid var(--gray-3); color:var(--text); }
+.btn-prev:hover { border-color:var(--blue); color:var(--blue); }
+.btn-next-q { background:var(--blue); color:white; border:none; box-shadow:0 3px 10px rgba(26,86,232,.25); }
+.btn-next-q:hover { background:var(--blue-mid); }
+.q-dots { display:flex; gap:6px; flex-wrap:wrap; }
+.q-dot {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--gray-2); border:1.5px solid var(--gray-3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:600; color:var(--gray-5);
+  cursor:pointer; transition:all .15s;
+}
+.q-dot.answered { background:var(--blue-light); border-color:var(--blue); color:var(--blue); }
+.q-dot.current { background:var(--blue); border-color:var(--blue); color:white; }
+
+/* RESULTS */
+.results-card {
+  background:white; border-radius:var(--radius-xl);
+  border:1.5px solid var(--gray-2); padding:36px 32px; text-align:center;
+  margin-bottom:20px;
+}
+.score-circle {
+  width:110px; height:110px; border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  margin:0 auto 20px; border:4px solid;
+}
+.score-circle.pass { border-color:var(--green); background:var(--green-light); }
+.score-circle.fail { border-color:var(--red); background:var(--red-light); }
+.score-circle.medium { border-color:var(--amber); background:var(--amber-light); }
+.score-num { font-size:32px; font-weight:800; }
+.score-circle.pass .score-num { color:var(--green); }
+.score-circle.fail .score-num { color:var(--red); }
+.score-circle.medium .score-num { color:var(--amber); }
+.score-label { font-size:12px; font-weight:600; color:var(--gray-5); }
+.results-title { font-size:22px; font-weight:800; margin-bottom:8px; }
+.results-desc { font-size:15px; color:var(--gray-5); line-height:1.7; margin-bottom:24px; max-width:440px; margin-left:auto; margin-right:auto; }
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:400px; margin:0 auto 24px; }
+.stat-box { background:var(--gray-1); border-radius:var(--radius-sm); padding:14px 10px; }
+.stat-val { font-size:20px; font-weight:800; color:var(--text); }
+.stat-lbl { font-size:12px; color:var(--gray-4); margin-top:2px; }
+
+.review-section { text-align:right; }
+.review-title { font-size:16px; font-weight:700; margin-bottom:14px; }
+.review-item {
+  display:flex; gap:12px; padding:14px 0;
+  border-bottom:1px solid var(--gray-2); align-items:flex-start;
+}
+.review-icon { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; margin-top:2px; }
+.ri-correct { background:var(--green-light); color:var(--green); }
+.ri-wrong { background:var(--red-light); color:var(--red); }
+.review-q { font-size:14px; font-weight:600; color:var(--text); margin-bottom:4px; }
+.review-ans { font-size:13px; color:var(--gray-5); }
+.review-correct { font-size:13px; color:var(--green); font-weight:600; }
+
+.email-box {
+  background:var(--blue-light); border-radius:var(--radius);
+  padding:20px 24px; display:flex; align-items:center; gap:16px;
+  margin-bottom:20px; text-align:right;
+}
+.email-icon { font-size:32px; flex-shrink:0; }
+.email-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+.email-desc { font-size:13px; color:var(--gray-5); }
+.send-btn {
+  margin-right:auto; padding:10px 20px; background:var(--blue); color:white;
+  border:none; border-radius:var(--radius-sm); font-size:14px; font-weight:600;
+  font-family:'Heebo',sans-serif; cursor:pointer; white-space:nowrap; flex-shrink:0;
+  transition:all .2s;
+}
+.send-btn:hover { background:var(--blue-mid); }
+.send-btn.sent { background:var(--green); }
+
+.action-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.action-btn {
+  padding:12px 24px; border-radius:var(--radius); font-size:14px; font-weight:600;
+  font-family:'Heebo',sans-serif; cursor:pointer; transition:all .2s; text-decoration:none; display:inline-block;
+}
+.ab-primary { background:var(--blue); color:white; border:none; box-shadow:0 3px 10px rgba(26,86,232,.25); }
+.ab-primary:hover { background:var(--blue-mid); }
+.ab-outline { background:white; color:var(--text); border:1.5px solid var(--gray-3); }
+.ab-outline:hover { border-color:var(--blue); color:var(--blue); }
+
+/* SCREENS */
+.screen { display:none; }
+.screen.active { display:block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="bagrut.html" class="logo">בגר<span>נט</span></a>
+    <a href="bagrut.html" class="back-link">← חזרה לאתר</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HOME -->
+  <div class="screen active" id="homeScreen">
+    <div class="home-banner">
+      <h1>מרכז המבחנים</h1>
+      <p>מבחני אימות למורים ומבחני אבחון לתלמידים — כדי שהשיעור יתחיל מהמקום הנכון</p>
+    </div>
+    <div class="role-grid">
+
+      <div class="role-card" onclick="showSubjectSelect('teacher')">
+        <div class="role-icon">👨‍🏫</div>
+        <div class="role-title">אני מורה</div>
+        <div class="role-desc">עבור מבחן אימות מקצועי בכל מקצוע שאתה מלמד — וקבל וי ✓ ועלייה בדירוג בפרופיל שלך</div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+          <span class="role-badge badge-blue">✓ אימות מקצועי</span>
+          <span class="role-badge badge-blue">⭐ עלייה בדירוג</span>
+        </div>
+      </div>
+
+      <div class="role-card" onclick="showSubjectSelect('student')">
+        <div class="role-icon">🎒</div>
+        <div class="role-title">אני תלמיד</div>
+        <div class="role-desc">מבחן אבחון רמה — לא חובה, אבל מומלץ מאוד. המורה יקבל דוח מפורט שיעזור לו להתאים את השיעורים בדיוק לצרכים שלך.</div>
+        <div style="background:#E6F7F2;border-radius:10px;padding:10px 14px;margin-top:14px;text-align:right">
+          <div style="font-size:12px;font-weight:700;color:#0D9E6E;margin-bottom:2px">💡 מדיווחי המורים שלנו</div>
+          <div style="font-size:13px;color:#4A5278">תלמידים שעשו את מבחן האבחון נדרשו ל<strong>~30% פחות שיעורים</strong> להגיע ליעד</div>
+        </div>
+        <span class="role-badge badge-green" style="margin-top:12px;display:inline-block">אבחון רמה · לא חובה</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUBJECT SELECT -->
+  <div class="screen" id="subjectScreen">
+    <div class="back-btn" onclick="goHome()">← חזרה</div>
+    <div class="screen-header">
+      <h2 id="subjectScreenTitle">בחר מקצוע למבחן</h2>
+      <p id="subjectScreenDesc">בחר מקצוע לתחילת המבחן</p>
+    </div>
+    <div id="studentHint" style="display:none;background:#E6F7F2;border-radius:var(--radius);padding:14px 18px;margin-bottom:20px;display:none">
+      <span style="font-size:13px;color:#0D9E6E;font-weight:600">💡 תזכורת: </span>
+      <span style="font-size:13px;color:#4A5278">מבחן זה אינו חובה — אך תלמידים שעשו אותו נדרשו ל-<strong>30% פחות שיעורים</strong> בממוצע</span>
+    </div>
+    <div class="subject-cards">
+      <div class="subject-card" onclick="startExam('math')">
+        <div class="subject-card-icon">📐</div>
+        <div class="subject-card-name">מתמטיקה</div>
+        <div class="subject-card-info">15 שאלות · 20 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('english')">
+        <div class="subject-card-icon">🔤</div>
+        <div class="subject-card-name">אנגלית</div>
+        <div class="subject-card-info">15 שאלות · 20 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('physics')">
+        <div class="subject-card-icon">⚛️</div>
+        <div class="subject-card-name">פיזיקה</div>
+        <div class="subject-card-info">12 שאלות · 18 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('biology')">
+        <div class="subject-card-icon">🧬</div>
+        <div class="subject-card-name">ביולוגיה</div>
+        <div class="subject-card-info">12 שאלות · 15 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('chemistry')">
+        <div class="subject-card-icon">🧪</div>
+        <div class="subject-card-name">כימיה</div>
+        <div class="subject-card-info">12 שאלות · 18 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('history')">
+        <div class="subject-card-icon">📜</div>
+        <div class="subject-card-name">היסטוריה</div>
+        <div class="subject-card-info">12 שאלות · 15 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('literature')">
+        <div class="subject-card-icon">📖</div>
+        <div class="subject-card-name">ספרות</div>
+        <div class="subject-card-info">10 שאלות · 15 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="subject-card" onclick="startExam('cs')">
+        <div class="subject-card-icon">💻</div>
+        <div class="subject-card-name">מחשבים</div>
+        <div class="subject-card-info">12 שאלות · 18 דקות</div>
+        <div class="difficulty-dots">
+          <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXAM -->
+  <div class="screen" id="examScreen">
+    <div class="back-btn" onclick="confirmBack()">← יציאה מהמבחן</div>
+    <div class="exam-header">
+      <div>
+        <div class="exam-title" id="examTitle">מבחן מתמטיקה</div>
+        <div class="exam-subtitle" id="examSubtitle">מבחן קבלה למורים</div>
+      </div>
+      <div class="timer">
+        <div>
+          <div class="timer-circle" id="timerDisplay">20:00</div>
+          <div class="timer-label" style="text-align:center">זמן נותר</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+
+    <div id="questionArea"></div>
+
+    <div style="background:white;border-radius:var(--radius-xl);border:1.5px solid var(--gray-2);padding:16px 20px;margin-bottom:16px;">
+      <div style="font-size:12px;color:var(--gray-4);margin-bottom:10px;font-weight:600;">ניווט מהיר</div>
+      <div class="q-dots" id="qDots"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-prev" id="btnPrev" onclick="prevQ()">← הקודם</button>
+      <button class="btn-next-q" id="btnNext" onclick="nextQ()">הבא ←</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="screen" id="resultsScreen">
+    <div class="results-card">
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-num" id="scoreNum">0%</div>
+        <div class="score-label" id="scoreLabel">ניקוד</div>
+      </div>
+      <div class="results-title" id="resultsTitle">תוצאות המבחן</div>
+      <div class="results-desc" id="resultsDesc">כאן יופיע תיאור התוצאה</div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" id="statCorrect">0</div>
+          <div class="stat-lbl">נכונות</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statWrong">0</div>
+          <div class="stat-lbl">שגויות</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statTime">0:00</div>
+          <div class="stat-lbl">זמן</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEACHER BADGE (teachers who passed only) -->
+    <div id="teacherBadgeBox" style="display:none;background:white;border:2px solid var(--green);border-radius:var(--radius-xl);padding:24px 28px;margin-bottom:16px;text-align:center">
+      <div style="font-size:48px;margin-bottom:10px">🏅</div>
+      <div style="font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px">אימות מקצועי הושלם!</div>
+      <div style="font-size:14px;color:var(--gray-5);margin-bottom:18px">הפרופיל שלך יעודכן עם הסמלים הבאים:</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:var(--radius);padding:12px 18px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--green)">✓ מאומת</div>
+          <div style="font-size:12px;color:var(--gray-5);margin-top:4px">תגית על הפרופיל</div>
+        </div>
+        <div id="subjectBadge" style="background:var(--blue-light);border:1.5px solid var(--blue);border-radius:var(--radius);padding:12px 18px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--blue)">✓ מתמטיקה</div>
+          <div style="font-size:12px;color:var(--gray-5);margin-top:4px">מקצוע מאומת</div>
+        </div>
+        <div style="background:var(--amber-light);border:1.5px solid var(--amber);border-radius:var(--radius);padding:12px 18px;text-align:center">
+          <div style="font-size:20px;font-weight:800;color:var(--amber)">⭐ +0.2</div>
+          <div style="font-size:12px;color:var(--gray-5);margin-top:4px">עלייה בדירוג</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEND TO TEACHER (students only) -->
+    <div class="email-box" id="sendTeacherBox" style="display:none">
+      <div class="email-icon">📧</div>
+      <div>
+        <div class="email-title">שלח תוצאות למורה</div>
+        <div class="email-desc">המורה שלך יקבל דוח מפורט עם הרמה שלך ונושאים לחיזוק</div>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="sendToTeacher()">שלח למורה</button>
+    </div>
+
+    <div class="results-card review-section" id="reviewArea">
+      <div class="review-title">סקירת תשובות</div>
+      <div id="reviewList"></div>
+    </div>
+
+    <div class="action-btns">
+      <button class="action-btn ab-primary" onclick="retakeExam()">נסה שוב</button>
+      <button class="action-btn ab-outline" onclick="goSubjects()">מקצוע אחר</button>
+      <a href="bagrut.html" class="action-btn ab-outline">חזרה לאתר</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ───
+const EXAMS = {
+  math: {
+    name: 'מתמטיקה', icon: '📐', time: 1200,
+    questions: [
+      { q: 'מהו פתרון המשוואה: 2x + 6 = 14', formula: '2x + 6 = 14', type:'mc', options:['x = 2','x = 3','x = 4','x = 10'], correct:2 },
+      { q: 'חשב את שטח המשולש שגובהו 8 ובסיסו 5', formula: 'A = ½ · b · h', type:'mc', options:['20','40','13','16'], correct:0 },
+      { q: 'מה נגזרת הפונקציה f(x) = x³ - 4x?', formula: 'f(x) = x³ - 4x', type:'mc', options:['3x² - 4','x² - 4','3x² + 4','3x - 4'], correct:0 },
+      { q: 'כמה פתרונות יש למשוואה x² - 5x + 6 = 0?', formula: 'x² - 5x + 6 = 0', type:'mc', options:['אין פתרון','פתרון אחד','שני פתרונות','שלושה פתרונות'], correct:2 },
+      { q: 'מהו מינימום הפונקציה f(x) = x² - 6x + 5?', formula: 'f(x) = x² - 6x + 5', type:'mc', options:['x = 3, f = -4','x = 3, f = 4','x = -3, f = -4','x = 6, f = 5'], correct:0 },
+      { q: 'לוגריתם: log₂(32) שווה ל?', formula: 'log₂(32) = ?', type:'mc', options:['4','5','6','16'], correct:1 },
+      { q: 'מהו ה-lim כאשר x→0 של: sin(x)/x?', formula: 'lim(x→0) sin(x)/x', type:'mc', options:['0','∞','1','לא קיים'], correct:2 },
+      { q: 'שיפוע הישר העובר דרך (2,3) ו-(6,11) הוא:', formula: 'm = (y₂-y₁)/(x₂-x₁)', type:'mc', options:['1','2','3','4'], correct:1 },
+      { q: 'הסתברות שני קוביות מגיעות ל-7 יחד?', formula: 'P(A) = ?', type:'mc', options:['1/6','5/36','6/36','7/36'], correct:2 },
+      { q: 'חשב: ∫(2x + 3)dx', formula: '∫(2x + 3)dx', type:'mc', options:['x² + 3x + C','2x² + 3x + C','x² + 3 + C','2 + C'], correct:0 },
+    ]
+  },
+  english: {
+    name: 'אנגלית', icon: '🔤', time: 1200,
+    questions: [
+      { q: 'Choose the correct sentence:', type:'mc', options:['She go to school every day.','She goes to school every day.','She going to school every day.','She gone to school every day.'], correct:1 },
+      { q: 'What is the past tense of "go"?', type:'mc', options:['goed','went','goes','gone'], correct:1 },
+      { q: 'Fill in: He has been studying __ three hours.', type:'mc', options:['since','for','during','while'], correct:1 },
+      { q: 'Which is the correct comparative form of "good"?', type:'mc', options:['more good','gooder','better','best'], correct:2 },
+      { q: 'Identify the passive voice:', type:'mc', options:['She wrote the letter.','The letter was written by her.','She is writing a letter.','She will write the letter.'], correct:1 },
+      { q: 'What does "ambiguous" mean?', type:'mc', options:['Clear and direct','Open to more than one interpretation','Very important','Extremely difficult'], correct:1 },
+      { q: 'Fill in: If I __ rich, I would travel the world.', type:'mc', options:['am','was','were','be'], correct:2 },
+      { q: 'Which sentence uses a relative clause correctly?', type:'mc', options:['The book which I read it was great.','The book that I read was great.','The book what I read was great.','The book I read it was great.'], correct:1 },
+      { q: 'Choose the correct preposition: She is good __ mathematics.', type:'mc', options:['in','at','for','on'], correct:1 },
+      { q: 'What is the noun form of "decide"?', type:'mc', options:['decidion','decided','decision','decisively'], correct:2 },
+    ]
+  },
+  physics: {
+    name: 'פיזיקה', icon: '⚛️', time: 1080,
+    questions: [
+      { q: 'גוף נופל ממנוחה. מה מהירותו לאחר 3 שניות? (g=10)', formula: 'v = g · t', type:'mc', options:['10 מ/ש','20 מ/ש','30 מ/ש','40 מ/ש'], correct:2 },
+      { q: 'כוח של 20N פועל על גוף שמסתו 4kg. מה תאוצתו?', formula: 'F = ma', type:'mc', options:['2 מ/ש²','5 מ/ש²','80 מ/ש²','0.2 מ/ש²'], correct:1 },
+      { q: 'גוף שמסתו 2kg נמצא בגובה 10m. מה האנרגיה הפוטנציאלית שלו? (g=10)', formula: 'Ep = mgh', type:'mc', options:['20J','100J','200J','2000J'], correct:2 },
+      { q: 'מהי תדירות גל שאורך גלו 2m ומהירותו 340 מ/ש?', formula: 'f = v/λ', type:'mc', options:['170 Hz','680 Hz','340 Hz','85 Hz'], correct:0 },
+      { q: 'התנגדות שני נגדים בחיבור טורי: 3Ω ו-7Ω הם:', formula: 'R_total = R₁ + R₂', type:'mc', options:['2.1Ω','10Ω','21Ω','4Ω'], correct:1 },
+      { q: 'כמה עבודה בוצעה על ידי כוח של 50N על מרחק 4m?', formula: 'W = F · d', type:'mc', options:['12.5J','54J','200J','46J'], correct:2 },
+      { q: 'איזה מהבאים הוא עיקרון בקרינה אלקטרומגנטית?', type:'mc', options:['גלי קול הם EM','אור הוא גל EM','אי אפשר לקלוע גל EM בריק','כל גלי EM צלילים'], correct:1 },
+      { q: 'קרח בתהליך היתוך: הטמפרטורה...', type:'mc', options:['עולה','יורדת','נשארת קבועה','משתנה אקראית'], correct:2 },
+    ]
+  },
+  biology: {
+    name: 'ביולוגיה', icon: '🧬', time: 900,
+    questions: [
+      { q: 'איזו אורגנלה אחראית לייצור ATP בתא?', type:'mc', options:['גרעין','מיטוכונדריה','ריבוזום','כלורופלסט'], correct:1 },
+      { q: 'מה תפקיד הריבוזום?', type:'mc', options:['פירוק סוכרים','סינתזת חלבונים','עיבוד DNA','שמירת מידע גנטי'], correct:1 },
+      { q: 'כמה כרומוזומים יש בתא אנושי?', type:'mc', options:['23','46','48','44'], correct:1 },
+      { q: 'מהי המוטציה שגורמת לסרטן?', type:'mc', options:['מוטציה בגן p53','מוטציה בגן BRCA','מוטציה סומטית בפרוטואונקוגן','כל האפשרויות נכונות'], correct:3 },
+      { q: 'תהליך הפוטוסינתזה מתרחש ב:', type:'mc', options:['מיטוכונדריה','גרעין','כלורופלסט','ריבוזום'], correct:2 },
+      { q: 'מהו ה-DNA המרכיב גן מסוים?', type:'mc', options:['רצף אקראי של בסיסים','רצף ספציפי של בסיסים שמקודד לחלבון','כל הכרומוזום','הגנום כולו'], correct:1 },
+      { q: 'תהליך הנשימה התאית הגורם לאנרגיה ממוצר של:', type:'mc', options:['חמצן','גלוקוז','מים','CO₂'], correct:1 },
+      { q: 'מה הבדל בין תא יוקריוטי לפרוקריוטי?', type:'mc', options:['יש גרעין ממוברש','גודל גדול יותר','תא יוקריוטי חסר ממברנה','ל-פרוקריוט יש מיטוכונדריה'], correct:0 },
+    ]
+  },
+  chemistry: {
+    name: 'כימיה', icon: '🧪', time: 1080,
+    questions: [
+      { q: 'מה מספר האלקטרונים באטום פחמן (C)?', formula: 'Z = 6', type:'mc', options:['4','6','12','8'], correct:1 },
+      { q: 'מה pH של תמיסה ניטרלית בטמפרטורת חדר?', type:'mc', options:['0','7','14','1'], correct:1 },
+      { q: 'מה תוצרי שריפת מתאן שלמה?', formula: 'CH₄ + 2O₂ → ?', type:'mc', options:['CO + H₂O','CO₂ + H₂O','CO₂ + H₂','C + 2H₂O'], correct:1 },
+      { q: 'הגדרת חומצה לפי ברנסטד-לורי:', type:'mc', options:['מקבל פרוטון','תורם פרוטון','פולט אלקטרון','מקבל אלקטרון'], correct:1 },
+      { q: 'מה מסת מול אחד של מולקולות H₂O?', formula: 'H₂O: H=1, O=16', type:'mc', options:['8g','16g','18g','20g'], correct:2 },
+      { q: 'קבוצה פונקציונלית של אלכוהולים:', type:'mc', options:['-COOH','-OH','-CHO','-NH₂'], correct:1 },
+      { q: 'ריאקציה אנדותרמית:', type:'mc', options:['פולטת חום','בולעת חום','ניטרלית','מייצרת אור'], correct:1 },
+      { q: 'מה הגז הנפלט בחימום ביקרבונט סודיום?', formula: '2NaHCO₃ → Na₂CO₃ + H₂O + ?', type:'mc', options:['O₂','H₂','CO₂','SO₂'], correct:2 },
+    ]
+  },
+  history: {
+    name: 'היסטוריה', icon: '📜', time: 900,
+    questions: [
+      { q: 'באיזו שנה פרצה מלחמת העולם הראשונה?', type:'mc', options:['1904','1914','1918','1939'], correct:1 },
+      { q: 'מהי הצהרת בלפור?', type:'mc', options:['הכרזת עצמאות ישראל','הבטחה בריטית לבית לאומי יהודי','הסכם שלום','הסכם חלוקת ארץ ישראל'], correct:1 },
+      { q: 'מה גרם ישירות להתפרצות מלחמת העולם הראשונה?', type:'mc', options:['פלישת גרמניה לצרפת','רצח הארכידוכס פרנץ פרדיננד','מדיניות הסגר הבריטית','המהפכה הרוסית'], correct:1 },
+      { q: 'מה פשר "מדיניות האפזמנט"?', type:'mc', options:['גיוס צבאי','ויתורים לגרמניה הנאצית','גיוס בעלות ברית','שדרוג נשק'], correct:1 },
+      { q: 'ה"שואה" — כמה יהודים נרצחו בה?', type:'mc', options:['1 מיליון','3 מיליון','6 מיליון','10 מיליון'], correct:2 },
+      { q: 'באיזו שנה קמה מדינת ישראל?', type:'mc', options:['1947','1948','1949','1950'], correct:1 },
+      { q: 'מה היה תפקיד ארה"ב בתוכנית מרשל?', type:'mc', options:['כיבוש גרמניה','סיוע כלכלי לאירופה לאחר מלחמת העולם','השמדת נשק גרעיני','הקמת ברית נאטו'], correct:1 },
+      { q: 'מה פרוץ מלחמת קוריאה (1950) מייצג?', type:'mc', options:['תחילת מלחמה קרה','מלחמה גרעינית','שיא המלחמה הקרה','סוף הקומוניזם'], correct:0 },
+    ]
+  },
+  literature: {
+    name: 'ספרות', icon: '📖', time: 900,
+    questions: [
+      { q: 'מה המאפיין העיקרי של גיבור טרגי?', type:'mc', options:['מת בסוף','מוגבל על ידי פגם אופי','תמיד מנצח','חי לנצח'], correct:1 },
+      { q: 'מהו מוטיב ספרותי?', type:'mc', options:['דמות ראשית','ערך שחוזר ביצירה','הגדרת הסיום','סגנון הכתיבה'], correct:1 },
+      { q: 'מה המשמעות של הכינוי "קדם-אדם" אצל ביאליק?', type:'mc', options:['האדם הראשון בתנ"ך','תום הילדות ואידיאל הטהרה','אב קדמון','בן אדם מן השורה'], correct:1 },
+      { q: 'מי כתב "אנטיגונה"?', type:'mc', options:['הומרוס','סופוקלס','אריסטו','פלאטון'], correct:1 },
+      { q: 'מה הז׳אנר של "הגלגול" מאת קפקא?', type:'mc', options:['ריאליזם','סוריאליזם אבסורדי','רומנטיציזם','נאטורליזם'], correct:1 },
+      { q: 'מה תפקיד נרטור "בלתי אמין" בספרות?', type:'mc', options:['לספר עובדות בלבד','לגרום לספק ועמימות','לתת מוסר השכל','לספר בגוף ראשון'], correct:1 },
+      { q: '"מבצר דמשק" — של מי הוא?', type:'mc', options:['יהודה עמיחי','שאול טשרניחובסקי','ח"נ ביאליק','נתן אלתרמן'], correct:0 },
+    ]
+  },
+  cs: {
+    name: 'מחשבים', icon: '💻', time: 1080,
+    questions: [
+      { q: 'מה הפלט של: print(2 ** 10) בפייתון?', formula: 'print(2 ** 10)', type:'mc', options:['20','100','1024','512'], correct:2 },
+      { q: 'מהי סיבוכיות זמן של אלגוריתם binary search?', type:'mc', options:['O(n)','O(log n)','O(n²)','O(1)'], correct:1 },
+      { q: 'מה מאחסן מחסנית (stack) — באיזה סדר?', type:'mc', options:['FIFO','LIFO','LILO','FILO'], correct:1 },
+      { q: 'מה ה-base case ברקורסיה?', type:'mc', options:['הקריאה הראשונה','תנאי עצירה','הלולאה החיצונית','הפונקציה הראשית'], correct:1 },
+      { q: 'מהו מספר הצמתים בעץ בינארי שגובהו 3?', formula: 'nodes = 2^(h+1) - 1', type:'mc', options:['7','8','15','6'], correct:2 },
+      { q: 'מה ההבדל בין list לtuple בפייתון?', type:'mc', options:['tuple מהיר יותר','list ניתן לשינוי, tuple לא','tuple מתחיל ב-1','אין הבדל'], correct:1 },
+      { q: 'מהו Deadlock?', type:'mc', options:['תהליך שרץ מהר','מצב שני תהליכים חוסמים זה את זה','תהליך שנכשל','חריגת זיכרון'], correct:1 },
+      { q: 'מה SQL JOIN עושה?', type:'mc', options:['מחק שורות','מחבר טבלאות לפי עמודה משותפת','מוסיף עמודה','ממיין תוצאות'], correct:1 },
+    ]
+  }
+};
+
+let mode = 'teacher';
+let currentExam = null;
+let currentQ = 0;
+let answers = [];
+let timerInterval = null;
+let timeLeft = 0;
+let startTime = null;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goHome() { showScreen('homeScreen'); }
+function goSubjects() { showScreen('subjectScreen'); }
+
+function showSubjectSelect(m) {
+  mode = m;
+  const hint = document.getElementById('studentHint');
+  if (m === 'student') {
+    document.getElementById('subjectScreenTitle').textContent = 'בחר מקצוע לאבחון רמה';
+    document.getElementById('subjectScreenDesc').textContent = 'אבחון רמה מומלץ — לא חובה. תוצאות יישלחו למורה שלך.';
+    hint.style.display = 'block';
+  } else {
+    document.getElementById('subjectScreenTitle').textContent = 'בחר מקצוע לאימות מקצועי';
+    document.getElementById('subjectScreenDesc').textContent = 'עבור בהצלחה וקבל ✓ ועלייה בדירוג על כל מקצוע שתאמת';
+    hint.style.display = 'none';
+  }
+  showScreen('subjectScreen');
+}
+
+function startExam(subject) {
+  currentExam = EXAMS[subject];
+  currentQ = 0;
+  answers = new Array(currentExam.questions.length).fill(null);
+  timeLeft = currentExam.time;
+  startTime = Date.now();
+
+  document.getElementById('examTitle').textContent = `מבחן ${currentExam.name}`;
+  document.getElementById('examSubtitle').textContent = mode === 'teacher' ? 'מבחן קבלה למורים' : 'אבחון רמה לתלמיד';
+
+  buildQDots();
+  renderQuestion();
+  startTimer();
+  showScreen('examScreen');
+}
+
+function buildQDots() {
+  const d = document.getElementById('qDots');
+  d.innerHTML = '';
+  currentExam.questions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'q-dot' + (i === 0 ? ' current' : '');
+    dot.textContent = i + 1;
+    dot.onclick = () => { currentQ = i; renderQuestion(); updateDots(); };
+    d.appendChild(dot);
+  });
+}
+
+function updateDots() {
+  const dots = document.querySelectorAll('.q-dot');
+  dots.forEach((d, i) => {
+    d.className = 'q-dot';
+    if (answers[i] !== null) d.classList.add('answered');
+    if (i === currentQ) d.classList.add('current');
+  });
+  const pct = ((currentQ + 1) / currentExam.questions.length * 100).toFixed(0);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  const isLast = currentQ === currentExam.questions.length - 1;
+  document.getElementById('btnNext').textContent = isLast ? 'סיים מבחן ✓' : 'הבא ←';
+}
+
+function renderQuestion() {
+  const q = currentExam.questions[currentQ];
+  let html = `<div class="question-card">
+    <div class="q-num">שאלה ${currentQ + 1} מתוך ${currentExam.questions.length}</div>
+    <div class="q-text">${q.q}</div>`;
+  if (q.formula) html += `<div class="q-formula">${q.formula}</div>`;
+  html += '<div class="options">';
+  const letters = ['א','ב','ג','ד'];
+  q.options.forEach((opt, i) => {
+    const sel = answers[currentQ] === i ? ' selected' : '';
+    html += `<div class="option${sel}" onclick="selectAnswer(${i})">
+      <div class="option-letter">${letters[i]}</div>${opt}</div>`;
+  });
+  html += '</div></div>';
+  document.getElementById('questionArea').innerHTML = html;
+  updateDots();
+}
+
+function selectAnswer(idx) {
+  answers[currentQ] = idx;
+  renderQuestion();
+  updateDots();
+}
+
+function prevQ() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
+
+function nextQ() {
+  if (currentQ < currentExam.questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    const unanswered = answers.filter(a => a === null).length;
+    if (unanswered > 0) {
+      if (!confirm(`עדיין לא ענית על ${unanswered} שאלות. לסיים בכל זאת?`)) return;
+    }
+    finishExam();
+  }
+}
+
+function confirmBack() {
+  if (confirm('האם לצאת מהמבחן? ההתקדמות לא תישמר.')) {
+    clearInterval(timerInterval);
+    showScreen('subjectScreen');
+  }
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (timeLeft <= 60) document.getElementById('timerDisplay').style.color = 'var(--red)';
+    if (timeLeft <= 0) { clearInterval(timerInterval); finishExam(); }
+  }, 1000);
+}
+
+function finishExam() {
+  clearInterval(timerInterval);
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const correct = currentExam.questions.filter((q, i) => answers[i] === q.correct).length;
+  const total = currentExam.questions.length;
+  const pct = Math.round(correct / total * 100);
+  const passed = pct >= 70;
+
+  // Score circle
+  const circle = document.getElementById('scoreCircle');
+  circle.className = 'score-circle ' + (pct >= 70 ? 'pass' : pct >= 50 ? 'medium' : 'fail');
+  document.getElementById('scoreNum').textContent = pct + '%';
+  document.getElementById('scoreLabel').textContent = mode === 'teacher' ? 'ציון אימות' : 'רמתך';
+
+  // Teacher badge box
+  const badgeBox = document.getElementById('teacherBadgeBox');
+  if (mode === 'teacher' && passed) {
+    badgeBox.style.display = 'block';
+    document.getElementById('subjectBadge').querySelector('div').textContent = `✓ ${currentExam.name}`;
+  } else {
+    badgeBox.style.display = 'none';
+  }
+
+  // Title + desc
+  let title, desc;
+  if (mode === 'teacher') {
+    if (passed) {
+      title = '🎉 עברת את מבחן האימות!';
+      desc = `השגת ${pct}% — מצוין! תגית ✓ ועלייה בדירוג יתווספו לפרופיל שלך ב${currentExam.name} תוך 24 שעות.`;
+    } else if (pct >= 50) {
+      title = '📚 קרוב, אבל לא מספיק';
+      desc = `השגת ${pct}%. ציון המינימום לאימות הוא 70%. מומלץ לחזור על החומר ולנסות שוב.`;
+    } else {
+      title = '📖 יש עוד לחזור על החומר';
+      desc = `השגת ${pct}%. המבחן דורש ידע מוצק. ניתן לנסות שוב לאחר שבוע.`;
+    }
+  } else {
+    if (pct >= 80) { title = '⭐ רמה גבוהה'; desc = `שולט/ת היטב בחומר! המורה שלך יוכל לעבוד איתך על נושאים מתקדמים ולחסוך שיעורים מיותרים.`; }
+    else if (pct >= 55) { title = '📊 רמה בינונית'; desc = `יש בסיס טוב. המורה שלך ישמח לקבל את הדוח ויתאים שיעורים ממוקדים — כך תגיע ליעד מהר יותר.`; }
+    else { title = '🔍 יש פערים לגשר'; desc = `זה בדיוק למה אנחנו כאן! המורה שלך יקבל דוח מפורט ויכין תוכנית לחיזוק הנושאים הספציפיים.`; }
+  }
+  } else {
+    if (pct >= 80) { title = '⭐ רמה גבוהה'; desc = `שולט/ת היטב בחומר! המורה שלך יוכל לעבוד איתך על נושאים מתקדמים.`; }
+    else if (pct >= 55) { title = '📊 רמה בינונית'; desc = `יש בסיס טוב. המורה שלך ישמח לקבל את הדוח ויתאים שיעורים ממוקדים.`; }
+    else { title = '🔍 יש פערים לגשר'; desc = `זה בדיוק למה אנחנו כאן! המורה שלך יקבל דוח מפורט ויכין תוכנית לחיזוק הנושאים.`; }
+  }
+
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('resultsDesc').textContent = desc;
+  document.getElementById('statCorrect').textContent = correct;
+  document.getElementById('statWrong').textContent = total - correct;
+  const em = Math.floor(elapsed / 60);
+  const es = elapsed % 60;
+  document.getElementById('statTime').textContent = `${em}:${es.toString().padStart(2,'0')}`;
+
+  // Show send-to-teacher for students
+  document.getElementById('sendTeacherBox').style.display = mode === 'student' ? 'flex' : 'none';
+
+  // Review list
+  let reviewHtml = '';
+  currentExam.questions.forEach((q, i) => {
+    const ans = answers[i];
+    const isCorrect = ans === q.correct;
+    const icon = isCorrect ? '✓' : '✗';
+    const cls = isCorrect ? 'ri-correct' : 'ri-wrong';
+    reviewHtml += `<div class="review-item">
+      <div class="review-icon ${cls}">${icon}</div>
+      <div>
+        <div class="review-q">${q.q}</div>
+        <div class="review-ans">תשובתך: ${ans !== null ? q.options[ans] : 'לא נענתה'}</div>
+        ${!isCorrect ? `<div class="review-correct">תשובה נכונה: ${q.options[q.correct]}</div>` : ''}
+      </div>
+    </div>`;
+  });
+  document.getElementById('reviewList').innerHTML = reviewHtml;
+
+  showScreen('resultsScreen');
+}
+
+function sendToTeacher() {
+  const btn = document.getElementById('sendBtn');
+  btn.textContent = '✓ נשלח!';
+  btn.classList.add('sent');
+  btn.disabled = true;
+}
+
+function retakeExam() {
+  const sub = Object.keys(EXAMS).find(k => EXAMS[k] === currentExam);
+  startExam(sub);
+}
+</script>
+</body>
+</html>

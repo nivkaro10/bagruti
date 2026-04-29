@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הרשמת תלמיד — בגרנט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A56E8;
+  --blue-light: #E8EFFE;
+  --blue-mid: #3B6FEF;
+  --dark: #0F1117;
+  --gray-1: #F5F6FA;
+  --gray-2: #ECEEF5;
+  --gray-3: #D0D5E8;
+  --gray-4: #8892B0;
+  --gray-5: #4A5278;
+  --text: #1A1D2E;
+  --white: #FFFFFF;
+  --green: #0D9E6E;
+  --green-light: #E6F7F2;
+  --red: #DC2626;
+  --teal: #0891B2;
+  --teal-light: #E0F7FA;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xl: 20px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Heebo', sans-serif; background: var(--gray-1); color: var(--text); min-height: 100vh; }
+
+nav {
+  background: white;
+  border-bottom: 1px solid var(--gray-2);
+  padding: 0 5%;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+.logo { font-size: 20px; font-weight: 800; color: var(--text); text-decoration: none; }
+.logo span { color: var(--blue); }
+.back-link { font-size: 14px; color: var(--gray-5); text-decoration: none; }
+.back-link:hover { color: var(--blue); }
+
+.page-wrap { max-width: 700px; margin: 0 auto; padding: 40px 20px 60px; }
+
+/* HERO BANNER */
+.reg-banner {
+  background: linear-gradient(135deg, var(--blue) 0%, #2563EB 100%);
+  border-radius: var(--radius-xl);
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.reg-banner::after {
+  content: '🎓';
+  position: absolute;
+  left: 24px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 64px;
+  opacity: 0.2;
+}
+.reg-banner h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+.reg-banner p { font-size: 15px; opacity: 0.85; }
+.banner-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* FORM CARD */
+.form-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--gray-2);
+  padding: 32px 36px;
+  margin-bottom: 16px;
+}
+.card-section-title {
+  font-size: 16px; font-weight: 700; color: var(--text);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gray-2);
+  display: flex; align-items: center; gap: 8px;
+}
+.section-icon { font-size: 18px; }
+
+/* FORM */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+.form-group.full { grid-column: 1 / -1; }
+label { font-size: 13px; font-weight: 600; color: var(--gray-5); }
+.required::after { content: ' *'; color: var(--red); }
+input, select, textarea {
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'Heebo', sans-serif;
+  color: var(--text);
+  background: white;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,86,232,0.08);
+}
+textarea { resize: vertical; min-height: 80px; }
+.hint { font-size: 12px; color: var(--gray-4); }
+
+/* SUBJECT GRID */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.subject-option {
+  padding: 10px 12px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+  user-select: none;
+  color: var(--gray-5);
+}
+.subject-option:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+.subject-option.selected { background: var(--blue); border-color: var(--blue); color: white; }
+
+/* CHIPS */
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  padding: 8px 16px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: 20px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; background: white; color: var(--gray-5);
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--blue); color: var(--blue); }
+.chip.selected { background: var(--blue); border-color: var(--blue); color: white; }
+
+/* GOAL CARDS */
+.goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.goal-card {
+  border: 2px solid var(--gray-2);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.goal-card:hover { border-color: var(--blue); background: var(--blue-light); }
+.goal-card.selected { border-color: var(--blue); background: var(--blue-light); }
+.goal-icon { font-size: 24px; margin-bottom: 8px; }
+.goal-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.goal-desc { font-size: 12px; color: var(--gray-5); }
+
+/* PARENT TOGGLE */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--gray-2);
+  margin-bottom: 14px;
+}
+.toggle-label { font-size: 14px; font-weight: 600; color: var(--text); }
+.toggle-sub { font-size: 12px; color: var(--gray-4); }
+.toggle {
+  width: 44px; height: 24px;
+  background: var(--gray-3);
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--blue); }
+.toggle-knob {
+  width: 18px; height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px; right: 3px;
+  transition: right 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle.on .toggle-knob { right: 23px; }
+
+/* PARENT FIELDS */
+.parent-fields { display: none; }
+.parent-fields.show { display: grid; }
+
+/* BUDGET */
+.budget-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.budget-option {
+  border: 1.5px solid var(--gray-2);
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.budget-option:hover { border-color: var(--blue); background: var(--blue-light); }
+.budget-option.selected { border-color: var(--blue); background: var(--blue-light); }
+.budget-amount { font-size: 16px; font-weight: 700; color: var(--text); }
+.budget-label { font-size: 11px; color: var(--gray-4); margin-top: 2px; }
+
+/* SUBMIT BTN */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: white; border: none;
+  border-radius: var(--radius);
+  font-size: 16px; font-weight: 700;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(26,86,232,0.3);
+  margin-top: 8px;
+}
+.submit-btn:hover { background: var(--blue-mid); transform: translateY(-1px); }
+.form-legal { font-size: 12px; color: var(--gray-4); text-align: center; margin-top: 12px; line-height: 1.7; }
+.form-legal a { color: var(--blue); }
+.check-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text); cursor: pointer; margin-bottom: 8px; }
+.check-row input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--blue); }
+
+/* SUCCESS */
+.success-screen { display:none; text-align:center; padding:60px 40px; }
+.success-icon { width:80px; height:80px; background:var(--green-light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 24px; }
+.success-screen h2 { font-size:28px; font-weight:800; margin-bottom:12px; }
+.success-screen p { font-size:16px; color:var(--gray-5); line-height:1.7; max-width:420px; margin:0 auto; }
+.teacher-preview { background:var(--gray-1); border-radius:var(--radius); padding:20px 24px; margin:24px auto; max-width:400px; display:flex; gap:14px; align-items:center; text-align:right; }
+.tp-avatar { width:52px; height:52px; background:var(--blue-light); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:var(--blue); flex-shrink:0; }
+.tp-name { font-size:15px; font-weight:700; }
+.tp-sub { font-size:13px; color:var(--gray-5); }
+.tp-stars { color:#F59E0B; font-size:13px; }
+
+@media (max-width: 640px) {
+  .form-card { padding: 24px 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .goal-grid { grid-template-columns: 1fr; }
+  .budget-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="bagrut.html" class="logo">בגר<span>נט</span></a>
+    <a href="bagrut.html" class="back-link">← חזרה לאתר</a>
+  </div>
+</nav>
+
+<div class="page-wrap" id="mainContent">
+
+  <!-- BANNER -->
+  <div class="reg-banner">
+    <div class="banner-badge">🎓 הרשמה חינם · ללא התחייבות</div>
+    <h1>מצא את המורה המושלם לבגרות</h1>
+    <p>הרשמה קצרה ותוך דקות נתאים לך מורה שמתאים בדיוק לצרכים שלך</p>
+  </div>
+
+  <!-- SECTION 1: PERSONAL -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">👤</span> פרטים אישיים</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="required">שם פרטי</label>
+        <input type="text" id="fname" placeholder="ישראל" />
+      </div>
+      <div class="form-group">
+        <label class="required">שם משפחה</label>
+        <input type="text" id="lname" placeholder="ישראלי" />
+      </div>
+      <div class="form-group">
+        <label class="required">אימייל</label>
+        <input type="email" id="email" placeholder="you@gmail.com" />
+      </div>
+      <div class="form-group">
+        <label class="required">טלפון</label>
+        <input type="tel" id="phone" placeholder="05X-XXXXXXX" />
+      </div>
+      <div class="form-group">
+        <label>עיר</label>
+        <select id="city">
+          <option value="">בחר עיר</option>
+          <option>תל אביב</option><option>ירושלים</option><option>חיפה</option>
+          <option>באר שבע</option><option>רמת גן</option><option>פתח תקווה</option>
+          <option>נתניה</option><option>ראשון לציון</option><option>אשדוד</option><option>אחר</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>כיתה</label>
+        <select id="grade">
+          <option value="">בחר כיתה</option>
+          <option>י׳ (10)</option>
+          <option>י״א (11)</option>
+          <option>י״ב (12)</option>
+          <option>בוגר/ת שרוצה לשפר ציון</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: SUBJECTS -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">📚</span> מקצועות ויחידות</div>
+
+    <div class="form-group" style="margin-bottom:20px">
+      <label class="required">מקצועות שצריך עזרה <span class="hint">(בחר הכל שרלוונטי)</span></label>
+      <div class="subjects-grid">
+        <div class="subject-option" onclick="toggleSubject(this)">מתמטיקה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">אנגלית</div>
+        <div class="subject-option" onclick="toggleSubject(this)">פיזיקה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">ביולוגיה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">כימיה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">היסטוריה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">ספרות</div>
+        <div class="subject-option" onclick="toggleSubject(this)">גיאוגרפיה</div>
+        <div class="subject-option" onclick="toggleSubject(this)">מחשבים</div>
+        <div class="subject-option" onclick="toggleSubject(this)">ערבית</div>
+        <div class="subject-option" onclick="toggleSubject(this)">תנ"ך</div>
+        <div class="subject-option" onclick="toggleSubject(this)">אזרחות</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:0">
+      <label>יחידות לימוד</label>
+      <div class="chip-row">
+        <div class="chip" onclick="toggleChip(this)">5 יחידות</div>
+        <div class="chip" onclick="toggleChip(this)">4 יחידות</div>
+        <div class="chip" onclick="toggleChip(this)">3 יחידות</div>
+        <div class="chip" onclick="toggleChip(this)">2 יחידות</div>
+        <div class="chip" onclick="toggleChip(this)">לא יודע/ת עדיין</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: GOALS -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">🎯</span> מטרה</div>
+
+    <div class="goal-grid">
+      <div class="goal-card" onclick="selectGoal(this)">
+        <div class="goal-icon">📈</div>
+        <div class="goal-title">שיפור ציון</div>
+        <div class="goal-desc">רוצה לעלות את הציון בבגרות</div>
+      </div>
+      <div class="goal-card" onclick="selectGoal(this)">
+        <div class="goal-icon">📖</div>
+        <div class="goal-title">הכנה לבגרות</div>
+        <div class="goal-desc">הכנה שיטתית לקראת הבחינה</div>
+      </div>
+      <div class="goal-card" onclick="selectGoal(this)">
+        <div class="goal-icon">💡</div>
+        <div class="goal-title">הבנת החומר</div>
+        <div class="goal-desc">פערים בחומר שנלמד בבית ספר</div>
+      </div>
+      <div class="goal-card" onclick="selectGoal(this)">
+        <div class="goal-icon">🔄</div>
+        <div class="goal-title">שיפור ציון קיים</div>
+        <div class="goal-desc">הגשת בחינה מחדש לשיפור</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top:16px">
+      <label>מה הציון הנוכחי שלך? (אם רלוונטי)</label>
+      <div class="chip-row">
+        <div class="chip" onclick="toggleChip(this)">מתחת ל-55</div>
+        <div class="chip" onclick="toggleChip(this)">55–70</div>
+        <div class="chip" onclick="toggleChip(this)">70–85</div>
+        <div class="chip" onclick="toggleChip(this)">85+</div>
+        <div class="chip" onclick="toggleChip(this)">לא רלוונטי</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3.5: TEACHER PREFERENCES -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">🎓</span> העדפות מורה</div>
+
+    <div class="form-group" style="margin-bottom:20px">
+      <label>העדפת מגדר מורה</label>
+      <div class="goal-grid" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="goal-card" onclick="selectGender(this)" data-val="no-pref">
+          <div class="goal-icon">🤝</div>
+          <div class="goal-title">לא משנה</div>
+          <div class="goal-desc">כל מורה מתאים/ה</div>
+        </div>
+        <div class="goal-card" onclick="selectGender(this)" data-val="male">
+          <div class="goal-icon">👨‍🏫</div>
+          <div class="goal-title">מורה גבר</div>
+          <div class="goal-desc">מעדיף/ה מורה גבר</div>
+        </div>
+        <div class="goal-card" onclick="selectGender(this)" data-val="female">
+          <div class="goal-icon">👩‍🏫</div>
+          <div class="goal-title">מורה אישה</div>
+          <div class="goal-desc">מעדיף/ה מורה אישה</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:0">
+      <label>העדפות נוספות (אופציונלי)</label>
+      <div class="chip-row">
+        <div class="chip" onclick="toggleChip(this)">ניסיון בהוראה מיוחדת</div>
+        <div class="chip" onclick="toggleChip(this)">סבלנות גבוהה</div>
+        <div class="chip" onclick="toggleChip(this)">ניסיון עם קשיי קשב</div>
+        <div class="chip" onclick="toggleChip(this)">מורה בכיר 5+ שנים</div>
+        <div class="chip" onclick="toggleChip(this)">זמין לשאלות בין שיעורים</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: AVAILABILITY & BUDGET -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">📅</span> זמינות ותקציב</div>
+
+    <div class="form-group" style="margin-bottom:20px">
+      <label>מתי מועדף לשיעורים?</label>
+      <div class="chip-row">
+        <div class="chip" onclick="toggleChip(this)">בוקר</div>
+        <div class="chip" onclick="toggleChip(this)">צהריים</div>
+        <div class="chip" onclick="toggleChip(this)">אחר״צ</div>
+        <div class="chip" onclick="toggleChip(this)">ערב</div>
+        <div class="chip" onclick="toggleChip(this)">סוף שבוע</div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-bottom:0">
+      <label>תקציב לשעת שיעור</label>
+      <div class="budget-grid">
+        <div class="budget-option" onclick="selectBudget(this)">
+          <div class="budget-amount">עד ₪100</div>
+          <div class="budget-label">חסכוני</div>
+        </div>
+        <div class="budget-option selected" onclick="selectBudget(this)">
+          <div class="budget-amount">₪100–₪180</div>
+          <div class="budget-label">ממוצע</div>
+        </div>
+        <div class="budget-option" onclick="selectBudget(this)">
+          <div class="budget-amount">₪180+</div>
+          <div class="budget-label">מורה בכיר</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: PARENT -->
+  <div class="form-card">
+    <div class="card-section-title"><span class="section-icon">👨‍👩‍👧</span> פרטי הורה / אפוטרופוס</div>
+
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">אני הורה שנרשם עבור בני/בתי</div>
+        <div class="toggle-sub">מלא גם את פרטי ההורה</div>
+      </div>
+      <div class="toggle" id="parentToggle" onclick="toggleParent()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+
+    <div class="parent-fields form-grid" id="parentFields">
+      <div class="form-group">
+        <label>שם ההורה</label>
+        <input type="text" id="parentName" placeholder="שם מלא" />
+      </div>
+      <div class="form-group">
+        <label>טלפון הורה</label>
+        <input type="tel" id="parentPhone" placeholder="05X-XXXXXXX" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>הערות נוספות (אופציונלי)</label>
+      <textarea id="notes" placeholder="לדוגמה: תלמיד עם קשיי קשב, רוצה מורה סבלנית, מועדי בגרות בחודש הקרוב..."></textarea>
+    </div>
+  </div>
+
+  <!-- EXAM RECOMMENDATION -->
+  <div class="form-card" style="border-color:#0D9E6E;border-width:1.5px">
+    <div style="display:flex;gap:14px;align-items:flex-start">
+      <div style="font-size:36px;flex-shrink:0">💡</div>
+      <div>
+        <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px">אנו ממליצים: עשה מבחן אבחון רמה</div>
+        <div style="font-size:14px;color:var(--gray-5);line-height:1.7;margin-bottom:12px">המבחן לא חובה — אבל מדיווחי המורים שלנו עולה כי <strong>תלמידים שעשו את מבחן האבחון נדרשו לכ-30% פחות שיעורים</strong> כדי להגיע ליעד שלהם.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="exams.html" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--green);color:white;border-radius:var(--radius-sm);font-size:14px;font-weight:700;text-decoration:none">כן, בצע מבחן אבחון ←</a>
+          <span style="display:inline-block;padding:10px 16px;font-size:13px;color:var(--gray-5);cursor:pointer" id="skipExamBtn" onclick="document.getElementById('skipExamBtn').style.display='none'">דלג, אמשיך בלי מבחן</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS + SUBMIT -->
+  <div class="form-card">
+    <label class="check-row">
+      <input type="checkbox" id="terms1" />
+      קראתי ואני מסכים/ה לתנאי השימוש ומדיניות הפרטיות
+    </label>
+    <label class="check-row">
+      <input type="checkbox" id="terms2" />
+      אני מסכים/ה לקבל עדכונים ותזכורות שיעורים
+    </label>
+    <button class="submit-btn" onclick="submitStudent()">מצא לי מורה ←</button>
+    <div class="form-legal">
+      ההרשמה חינמית לחלוטין.<br>
+      לא נחייב אותך עד שתזמין שיעור בפועל.
+    </div>
+  </div>
+
+</div>
+
+<!-- SUCCESS -->
+<div class="form-card" id="successCard" style="display:none; max-width:700px; margin:40px auto;">
+  <div class="success-screen" style="display:block">
+    <div class="success-icon">✓</div>
+    <h2>נרשמת בהצלחה!</h2>
+    <p>מצאנו מורה שמתאים לצרכים שלך. תקבל פרטים לאימייל תוך מספר דקות.</p>
+
+    <div class="teacher-preview">
+      <div class="tp-avatar">רכ</div>
+      <div>
+        <div class="tp-name">רותם כהן</div>
+        <div class="tp-sub">מתמטיקה 5 יח׳ · 8 שנות ניסיון</div>
+        <div class="tp-stars">★★★★★ <span style="color:var(--gray-4);font-size:12px">(12 ביקורות)</span></div>
+      </div>
+    </div>
+
+    <a href="bagrut.html" style="display:inline-block; margin-top:8px; padding:12px 28px; background:var(--blue); color:white; border-radius:var(--radius); font-size:15px; font-weight:700; text-decoration:none;">חזרה לאתר</a>
+  </div>
+</div>
+
+<script>
+function toggleSubject(el) { el.classList.toggle('selected'); }
+function toggleChip(el) { el.classList.toggle('selected'); }
+
+function selectGoal(el) {
+  el.closest('.goal-grid').querySelectorAll('.goal-card').forEach(g => g.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectGender(el) {
+  el.closest('.goal-grid').querySelectorAll('.goal-card').forEach(g => g.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function selectBudget(el) {
+  document.querySelectorAll('.budget-option').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleParent() {
+  const t = document.getElementById('parentToggle');
+  const f = document.getElementById('parentFields');
+  t.classList.toggle('on');
+  f.classList.toggle('show');
+}
+
+function submitStudent() {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const t1 = document.getElementById('terms1').checked;
+  const selected = document.querySelectorAll('.subject-option.selected');
+
+  if (!fname || !email || !phone) { alert('אנא מלא שם, אימייל וטלפון'); return; }
+  if (selected.length === 0) { alert('אנא בחר לפחות מקצוע אחד'); return; }
+  if (!t1) { alert('אנא אשר את תנאי השימוש'); return; }
+
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('successCard').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

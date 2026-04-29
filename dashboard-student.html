@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>דשבורד תלמיד — בגרנט</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#1A56E8; --blue-light:#E8EFFE; --blue-mid:#3B6FEF;
+  --dark:#0F1117; --gray-1:#F5F6FA; --gray-2:#ECEEF5; --gray-3:#D0D5E8;
+  --gray-4:#8892B0; --gray-5:#4A5278; --text:#1A1D2E; --white:#fff;
+  --green:#0D9E6E; --green-light:#E6F7F2;
+  --red:#DC2626; --red-light:#FEF2F2;
+  --amber:#D97706; --amber-light:#FEF3C7;
+  --purple:#7C3AED; --purple-light:#F5F3FF;
+  --radius:12px; --radius-sm:8px; --radius-xl:20px;
+  --sidebar:240px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Heebo',sans-serif;background:var(--gray-1);color:var(--text);display:flex;min-height:100vh;}
+
+.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--dark);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-logo .logo{font-size:20px;font-weight:800;color:white;text-decoration:none;}
+.sidebar-logo .logo span{color:#60A5FA;}
+.sidebar-user{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;}
+.user-avatar{width:36px;height:36px;border-radius:10px;background:#7C3AED;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+.user-name{font-size:13px;font-weight:600;color:white;}
+.user-role{font-size:11px;color:rgba(255,255,255,.4);}
+.sidebar-nav{padding:16px 12px;flex:1;}
+.nav-section-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;margin:16px 0 6px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;color:rgba(255,255,255,.55);font-size:14px;font-weight:500;margin-bottom:2px;text-decoration:none;}
+.nav-item:hover{background:rgba(255,255,255,.07);color:white;}
+.nav-item.active{background:var(--blue);color:white;}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-right:auto;background:var(--red);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
+.sidebar-bottom{padding:16px 12px;border-top:1px solid rgba(255,255,255,.08);}
+
+.main{flex:1;overflow-x:hidden;}
+.topbar{background:white;border-bottom:1px solid var(--gray-2);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
+.topbar-title{font-size:18px;font-weight:800;}
+.topbar-actions{display:flex;align-items:center;gap:12px;}
+.notif-btn{width:36px;height:36px;border-radius:var(--radius-sm);background:var(--gray-1);border:1px solid var(--gray-2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;position:relative;}
+.notif-dot{width:8px;height:8px;background:var(--red);border-radius:50%;position:absolute;top:6px;left:6px;border:2px solid white;}
+.btn-sm{padding:8px 16px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:600;font-family:'Heebo',sans-serif;cursor:pointer;transition:all .2s;}
+.btn-sm:hover{background:var(--blue-mid);}
+
+.content{padding:28px;}
+
+/* METRICS */
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.metric-card{background:white;border-radius:var(--radius-xl);border:1.5px solid var(--gray-2);padding:20px;}
+.metric-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.metric-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.mi-blue{background:var(--blue-light);}
+.mi-green{background:var(--green-light);}
+.mi-amber{background:var(--amber-light);}
+.mi-purple{background:var(--purple-light);}
+.metric-val{font-size:28px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.metric-label{font-size:13px;color:var(--gray-5);}
+
+/* CARDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.grid-3-1{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px;}
+.card{background:white;border-radius:var(--radius-xl);border:1.5px solid var(--gray-2);padding:22px 24px;}
+.card-title{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.card-title-link{font-size:13px;font-weight:500;color:var(--blue);cursor:pointer;}
+
+/* NEXT LESSON HERO */
+.next-lesson-card{background:linear-gradient(135deg,#1A56E8 0%,#2563EB 100%);border-radius:var(--radius-xl);padding:24px 28px;margin-bottom:20px;color:white;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.nl-left h3{font-size:13px;font-weight:600;opacity:.75;margin-bottom:6px;}
+.nl-left .nl-title{font-size:20px;font-weight:800;margin-bottom:4px;}
+.nl-left .nl-sub{font-size:14px;opacity:.8;}
+.nl-right{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.nl-time{font-size:36px;font-weight:800;}
+.nl-date{font-size:13px;opacity:.75;}
+.nl-btn{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);color:white;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;font-family:'Heebo',sans-serif;cursor:pointer;transition:all .2s;margin-top:4px;}
+.nl-btn:hover{background:rgba(255,255,255,.3);}
+
+/* SUBJECT PROGRESS */
+.subject-progress-item{padding:14px 0;border-bottom:1px solid var(--gray-2);}
+.subject-progress-item:last-child{border-bottom:none;}
+.sp-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.sp-name{font-size:14px;font-weight:600;}
+.sp-score{font-size:14px;font-weight:800;}
+.sp-bar{height:8px;background:var(--gray-2);border-radius:4px;overflow:hidden;}
+.sp-fill{height:100%;border-radius:4px;transition:width .5s;}
+.sp-meta{display:flex;justify-content:space-between;margin-top:5px;font-size:12px;color:var(--gray-5);}
+
+/* LESSONS */
+.lesson-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--gray-2);}
+.lesson-item:last-child{border-bottom:none;}
+.lesson-avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;background:var(--blue-light);color:var(--blue);}
+.lesson-name{font-size:14px;font-weight:600;}
+.lesson-sub{font-size:12px;color:var(--gray-5);margin-top:1px;}
+.lesson-time{margin-right:auto;text-align:left;}
+.lesson-time-val{font-size:13px;font-weight:600;}
+.lesson-time-date{font-size:11px;color:var(--gray-4);}
+.status-badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;}
+.sb-upcoming{background:var(--blue-light);color:var(--blue);}
+.sb-done{background:var(--green-light);color:var(--green);}
+.sb-cancelled{background:var(--red-light);color:var(--red);}
+
+/* GIFT PROGRESS */
+.gift-card{background:white;border:2px solid var(--green);border-radius:var(--radius-xl);padding:20px 22px;margin-bottom:20px;}
+.gift-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.gift-icon{font-size:32px;}
+.gift-title{font-size:15px;font-weight:800;color:var(--text);}
+.gift-sub{font-size:13px;color:var(--gray-5);margin-top:2px;}
+.gift-track{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.gift-dot{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gray-3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--gray-5);}
+.gift-dot.done{background:var(--green);border-color:var(--green);color:white;}
+.gift-dot.gift{background:var(--amber);border-color:var(--amber);color:white;font-size:16px;}
+.gift-dot.next{border-color:var(--blue);color:var(--blue);border-style:dashed;}
+.gift-label{font-size:13px;color:var(--green);font-weight:600;}
+
+/* TEACHER CARD */
+.teacher-mini-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--gray-1);border-radius:var(--radius);margin-bottom:10px;}
+.tc-avatar{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
+.tca-blue{background:var(--blue-light);color:var(--blue);}
+.tc-name{font-size:14px;font-weight:700;}
+.tc-sub{font-size:12px;color:var(--gray-5);margin-top:2px;}
+.tc-verified{font-size:11px;color:var(--green);font-weight:600;margin-top:3px;}
+.tc-btn{margin-right:auto;padding:7px 14px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:'Heebo',sans-serif;cursor:pointer;}
+
+/* DIAGNOSTICS NUDGE */
+.diag-card{background:var(--blue-light);border:1.5px solid var(--blue);border-radius:var(--radius-xl);padding:18px 22px;margin-bottom:20px;display:flex;align-items:flex-start;gap:14px;}
+.diag-icon{font-size:28px;flex-shrink:0;}
+.diag-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.diag-text{font-size:13px;color:var(--gray-5);line-height:1.7;}
+.diag-btn{display:inline-block;margin-top:10px;padding:8px 16px;background:var(--blue);color:white;border-radius:var(--radius-sm);font-size:13px;font-weight:600;text-decoration:none;}
+
+/* TOPICS GRID */
+.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.topic-item{background:var(--gray-1);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;}
+.topic-name{font-size:13px;font-weight:600;color:var(--text);}
+.topic-tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.tt-strong{background:var(--green-light);color:var(--green);}
+.tt-weak{background:var(--red-light);color:var(--red);}
+.tt-medium{background:var(--amber-light);color:var(--amber);}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.show{display:flex;}
+.modal{background:white;border-radius:var(--radius-xl);padding:32px;max-width:480px;width:90%;animation:modalIn .25s ease;}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:8px;}
+.modal-sub{font-size:14px;color:var(--gray-5);margin-bottom:20px;}
+.modal-btns{display:flex;gap:10px;margin-top:20px;}
+.modal-btn-primary{flex:1;padding:12px;background:var(--blue);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;font-family:'Heebo',sans-serif;cursor:pointer;}
+.modal-btn-secondary{padding:12px 20px;background:white;color:var(--text);border:1.5px solid var(--gray-3);border-radius:var(--radius);font-size:14px;font-weight:600;font-family:'Heebo',sans-serif;cursor:pointer;}
+@keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+  .grid-2,.grid-3-1{grid-template-columns:1fr;}
+  .topics-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <a href="bagrut.html" class="logo">בגר<span>נט</span></a>
+  </div>
+  <div class="sidebar-user">
+    <div class="user-avatar">יד</div>
+    <div>
+      <div class="user-name">יוני דהן</div>
+      <div class="user-role">תלמיד · כיתה י״ב</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">ראשי</div>
+    <a class="nav-item active" onclick="switchTab('overview')"><span class="nav-icon">📊</span> סקירה כללית</a>
+    <a class="nav-item" onclick="switchTab('lessons')"><span class="nav-icon">📅</span> השיעורים שלי<span class="nav-badge">1</span></a>
+    <a class="nav-item" onclick="switchTab('progress')"><span class="nav-icon">📈</span> התקדמות</a>
+    <a class="nav-item" onclick="switchTab('teacher')"><span class="nav-icon">👨‍🏫</span> המורה שלי</a>
+    <div class="nav-section-label">כלים</div>
+    <a class="nav-item" href="exams.html" target="_blank"><span class="nav-icon">📝</span> מבחני אבחון</a>
+    <a class="nav-item" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span> הגדרות</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <a class="nav-item" href="bagrut.html"><span class="nav-icon">🏠</span> חזרה לאתר</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle">סקירה כללית</div>
+    <div class="topbar-actions">
+      <div class="notif-btn">🔔<div class="notif-dot"></div></div>
+      <button class="btn-sm" onclick="openModal()">+ קביעת שיעור</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── TAB: OVERVIEW ── -->
+    <div id="tab-overview">
+
+      <!-- NEXT LESSON -->
+      <div class="next-lesson-card">
+        <div class="nl-left">
+          <h3>השיעור הבא שלך</h3>
+          <div class="nl-title">מתמטיקה 5 יח׳ עם רותם כהן</div>
+          <div class="nl-sub">זום · 90 דקות</div>
+          <button class="nl-btn" style="margin-top:12px">הצטרף לזום ←</button>
+        </div>
+        <div class="nl-right">
+          <div class="nl-time">16:00</div>
+          <div class="nl-date">היום, 1.5.2025</div>
+        </div>
+      </div>
+
+      <!-- GIFT PROGRESS -->
+      <div class="gift-card">
+        <div class="gift-top">
+          <div class="gift-icon">🎁</div>
+          <div>
+            <div class="gift-title">מבצע שיעור מתנה</div>
+            <div class="gift-sub">רותם מציע שיעור מתנה לאחר כל 8 שיעורים — עוד <strong>4 שיעורים</strong> ותקבל שיעור חינם!</div>
+          </div>
+        </div>
+        <div class="gift-track" id="giftTrack"></div>
+        <div class="gift-label">השיעור המתנה הבא: שיעור 16 🎁</div>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-icon mi-blue">📅</div></div>
+          <div class="metric-val">12</div>
+          <div class="metric-label">שיעורים שעשיתי</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-icon mi-green">📈</div></div>
+          <div class="metric-val">+19</div>
+          <div class="metric-label">שיפור בציון (מ-72)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-icon mi-amber">🎁</div></div>
+          <div class="metric-val">1</div>
+          <div class="metric-label">שיעורי מתנה שקיבלתי</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-top"><div class="metric-icon mi-purple">⭐</div></div>
+          <div class="metric-val">8</div>
+          <div class="metric-label">שיעורים לבגרות</div>
+        </div>
+      </div>
+
+      <!-- DIAGNOSTIC NUDGE (shown if no exam taken) -->
+      <div class="diag-card" id="diagNudge">
+        <div class="diag-icon">💡</div>
+        <div>
+          <div class="diag-title">טיפ: עשה מבחן אבחון לפני השיעור הבא</div>
+          <div class="diag-text">מדיווחי המורים שלנו — תלמידים שעשו מבחן אבחון נדרשו ל-<strong>30% פחות שיעורים</strong>. רותם יקבל את התוצאות ויוכל להתאים את השיעורים בדיוק לנושאים שצריך.</div>
+          <a href="exams.html" class="diag-btn" target="_blank">עשה מבחן אבחון עכשיו ←</a>
+        </div>
+        <div style="font-size:18px;cursor:pointer;opacity:.5;align-self:flex-start" onclick="document.getElementById('diagNudge').style.display='none'">✕</div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Upcoming lesson -->
+        <div class="card">
+          <div class="card-title">שיעורים קרובים <span class="card-title-link" onclick="switchTab('lessons')">הכל</span></div>
+          <div class="lesson-item">
+            <div class="lesson-avatar">ר</div>
+            <div><div class="lesson-name">רותם כהן</div><div class="lesson-sub">מתמטיקה 5 יח׳</div></div>
+            <div class="lesson-time"><div class="lesson-time-val">16:00</div><div class="lesson-time-date">היום</div></div>
+            <span class="status-badge sb-upcoming">היום</span>
+          </div>
+          <div class="lesson-item">
+            <div class="lesson-avatar" style="background:var(--green-light);color:var(--green)">ר</div>
+            <div><div class="lesson-name">רותם כהן</div><div class="lesson-sub">מתמטיקה — חזרה לבגרות</div></div>
+            <div class="lesson-time"><div class="lesson-time-val">17:30</div><div class="lesson-time-date">ד׳ 7.5</div></div>
+            <span class="status-badge sb-upcoming">קרוב</span>
+          </div>
+        </div>
+
+        <!-- Quick progress -->
+        <div class="card">
+          <div class="card-title">ציונים ויעדים</div>
+          <div class="subject-progress-item">
+            <div class="sp-top"><span class="sp-name">מתמטיקה</span><span class="sp-score" style="color:var(--blue)">91</span></div>
+            <div class="sp-bar"><div class="sp-fill" style="width:91%;background:var(--blue)"></div></div>
+            <div class="sp-meta"><span>ציון נוכחי: 91</span><span>יעד: 95</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── TAB: LESSONS ── -->
+    <div id="tab-lessons" style="display:none">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">שיעורים קרובים</div>
+        <div class="lesson-item">
+          <div class="lesson-avatar">ר</div>
+          <div><div class="lesson-name">רותם כהן — מתמטיקה 5</div><div class="lesson-sub">90 דקות · זום</div></div>
+          <div class="lesson-time"><div class="lesson-time-val">16:00</div><div class="lesson-time-date">היום, 1.5</div></div>
+          <button style="padding:7px 14px;background:var(--blue);color:white;border:none;border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:'Heebo',sans-serif;cursor:pointer">הצטרף לזום</button>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-avatar" style="background:var(--green-light);color:var(--green)">ר</div>
+          <div><div class="lesson-name">רותם כהן — חזרה לבגרות</div><div class="lesson-sub">90 דקות · זום</div></div>
+          <div class="lesson-time"><div class="lesson-time-val">17:30</div><div class="lesson-time-date">ד׳ 7.5</div></div>
+          <span class="status-badge sb-upcoming">קרוב</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">שיעורים שעברו</div>
+        <div class="lesson-item">
+          <div class="lesson-avatar" style="background:var(--gray-2);color:var(--gray-5)">ר</div>
+          <div><div class="lesson-name">רותם כהן — הסתברות</div><div class="lesson-sub">90 דקות</div></div>
+          <div class="lesson-time"><div class="lesson-time-val">15:00</div><div class="lesson-time-date">28.4</div></div>
+          <span class="status-badge sb-done">הסתיים</span>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-avatar" style="background:var(--gray-2);color:var(--gray-5)">ר</div>
+          <div><div class="lesson-name">רותם כהן — גיאומטריה</div><div class="lesson-sub">90 דקות · 🎁 שיעור מתנה!</div></div>
+          <div class="lesson-time"><div class="lesson-time-val">16:00</div><div class="lesson-time-date">22.4</div></div>
+          <span class="status-badge" style="background:var(--amber-light);color:var(--amber)">מתנה 🎁</span>
+        </div>
+        <div class="lesson-item">
+          <div class="lesson-avatar" style="background:var(--gray-2);color:var(--gray-5)">ר</div>
+          <div><div class="lesson-name">רותם כהן — נגזרות</div><div class="lesson-sub">90 דקות</div></div>
+          <div class="lesson-time"><div class="lesson-time-val">17:00</div><div class="lesson-time-date">15.4</div></div>
+          <span class="status-badge sb-done">הסתיים</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: PROGRESS ── -->
+    <div id="tab-progress" style="display:none">
+      <div class="grid-2" style="margin-bottom:20px">
+        <div class="card">
+          <div class="card-title">התקדמות בציון</div>
+          <div id="progressChart" style="height:140px;display:flex;align-items:flex-end;gap:8px;padding-top:10px"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--gray-5)">
+            <span>ינואר</span><span>פברואר</span><span>מרץ</span><span>אפריל</span><span>היום</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">נושאים — חוזקות וחולשות</div>
+          <div class="topics-grid" id="topicsGrid"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ציונים לפי מקצוע</div>
+        <div id="subjectBars"></div>
+      </div>
+    </div>
+
+    <!-- ── TAB: TEACHER ── -->
+    <div id="tab-teacher" style="display:none">
+      <div class="card" style="max-width:560px;margin-bottom:16px">
+        <div class="card-title">המורה שלי</div>
+        <div class="teacher-mini-card" style="background:white;border:1.5px solid var(--gray-2);padding:20px;border-radius:var(--radius-xl);display:flex;gap:16px;margin-bottom:0">
+          <div class="tc-avatar tca-blue" style="width:56px;height:56px;font-size:18px">רכ</div>
+          <div style="flex:1">
+            <div style="font-size:17px;font-weight:800;margin-bottom:2px">רותם כהן</div>
+            <div style="font-size:13px;color:var(--gray-5)">מתמטיקה 5 יח׳ · 8 שנות ניסיון</div>
+            <div style="font-size:12px;color:var(--green);font-weight:600;margin-top:3px">✓ מאומת · ⭐ 4.8 (12 ביקורות)</div>
+            <div style="margin-top:14px;display:flex;gap:10px">
+              <button class="btn-sm">שלח הודעה</button>
+              <button class="btn-sm" style="background:white;color:var(--text);border:1.5px solid var(--gray-3)" onclick="openModal()">קבע שיעור</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="max-width:560px">
+        <div class="card-title">מבצעים פעילים מהמורה</div>
+        <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px">
+          <div style="font-size:14px;font-weight:700;color:#065F46;margin-bottom:4px">🎁 שיעור מתנה</div>
+          <div style="font-size:13px;color:#4A5278">כל 8 שיעורים מקבלים שיעור אחד חינם. נשאר לך עוד <strong>4 שיעורים</strong>!</div>
+        </div>
+        <div style="background:var(--blue-light);border:1.5px solid var(--blue);border-radius:var(--radius);padding:16px 18px">
+          <div style="font-size:14px;font-weight:700;color:var(--blue);margin-bottom:4px">🌟 שיעור ראשון</div>
+          <div style="font-size:13px;color:#4A5278">ניצלת את ההנחה בשיעור הראשון שלך — חסכת ₪36!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: SETTINGS ── -->
+    <div id="tab-settings" style="display:none">
+      <div class="card" style="max-width:520px">
+        <div class="card-title">הגדרות חשבון</div>
+        <div style="display:grid;gap:14px">
+          <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">שם מלא</label><input value="יוני דהן" style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"></div>
+          <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">אימייל</label><input value="yoni@gmail.com" type="email" style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"></div>
+          <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">כיתה</label><select style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"><option>י׳</option><option>י״א</option><option selected>י״ב</option></select></div>
+          <button class="btn-sm" style="width:fit-content">שמור שינויים</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">קביעת שיעור עם רותם</div>
+    <div class="modal-sub">בחר זמן נוח — תקבל קישור זום לאימייל</div>
+    <div style="display:grid;gap:12px">
+      <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">תאריך</label><input type="date" style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"></div>
+      <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">שעה</label><input type="time" value="16:00" style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"></div>
+      <div><label style="font-size:13px;font-weight:600;color:var(--gray-5);display:block;margin-bottom:5px">נושא</label><select style="width:100%;padding:10px 13px;border:1.5px solid var(--gray-3);border-radius:var(--radius-sm);font-size:14px;font-family:'Heebo',sans-serif;outline:none"><option>אלגברה</option><option>גיאומטריה</option><option>הסתברות</option><option>חדו"א</option><option>חזרה כללית</option></select></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-secondary" onclick="closeModal()">ביטול</button>
+      <button class="modal-btn-primary" onclick="closeModal()">קבע שיעור ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TABS ──
+const tabs=['overview','lessons','progress','teacher','settings'];
+const tabTitles={overview:'סקירה כללית',lessons:'השיעורים שלי',progress:'התקדמות',teacher:'המורה שלי',settings:'הגדרות'};
+function switchTab(t){
+  tabs.forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
+  document.getElementById('topbarTitle').textContent=tabTitles[t];
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+}
+
+// ── GIFT TRACK ──
+(function(){
+  const done=12, total=16, giftAt=8;
+  const track=document.getElementById('giftTrack');
+  for(let i=1;i<=total;i++){
+    const d=document.createElement('div');
+    if(i%giftAt===0){
+      d.className='gift-dot gift';d.textContent='🎁';
+    } else if(i<=done){
+      d.className='gift-dot done';d.textContent='✓';
+    } else if(i===done+1){
+      d.className='gift-dot next';d.textContent=i;
+    } else {
+      d.className='gift-dot';d.textContent=i;
+    }
+    track.appendChild(d);
+  }
+})();
+
+// ── PROGRESS CHART ──
+(function(){
+  const data=[72,75,80,86,91];
+  const max=100, min=60;
+  const chart=document.getElementById('progressChart');
+  const months=['ינו','פבר','מרץ','אפר','היום'];
+  data.forEach((v,i)=>{
+    const col=document.createElement('div');
+    col.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:4px';
+    const h=Math.round((v-min)/(max-min)*100);
+    const isLast=i===data.length-1;
+    col.innerHTML=`<div style="font-size:11px;font-weight:700;color:${isLast?'var(--blue)':'var(--gray-5)'}">${v}</div>
+      <div style="height:${h}%;background:${isLast?'var(--blue)':'var(--gray-3)'};border-radius:6px 6px 0 0;width:100%;min-height:8px"></div>
+      <div style="font-size:11px;color:var(--gray-4)">${months[i]}</div>`;
+    chart.appendChild(col);
+  });
+})();
+
+// ── TOPICS ──
+(function(){
+  const topics=[
+    {name:'אלגברה',level:'חזק'},
+    {name:'גיאומטריה',level:'חלש'},
+    {name:'הסתברות',level:'בינוני'},
+    {name:'חדו"א',level:'חזק'},
+    {name:'וקטורים',level:'חלש'},
+    {name:'סטטיסטיקה',level:'בינוני'},
+  ];
+  const map={חזק:'tt-strong',חלש:'tt-weak',בינוני:'tt-medium'};
+  const grid=document.getElementById('topicsGrid');
+  topics.forEach(t=>{
+    grid.innerHTML+=`<div class="topic-item"><span class="topic-name">${t.name}</span><span class="topic-tag ${map[t.level]}">${t.level}</span></div>`;
+  });
+})();
+
+// ── SUBJECT BARS ──
+(function(){
+  const subjects=[
+    {name:'מתמטיקה',score:91,target:95,color:'var(--blue)'},
+  ];
+  const el=document.getElementById('subjectBars');
+  subjects.forEach(s=>{
+    el.innerHTML+=`<div class="subject-progress-item">
+      <div class="sp-top"><span class="sp-name">${s.name}</span><span class="sp-score" style="color:${s.color}">${s.score}</span></div>
+      <div class="sp-bar"><div class="sp-fill" style="width:${s.score}%;background:${s.color}"></div></div>
+      <div class="sp-meta"><span>ציון נוכחי: ${s.score}</span><span>יעד: ${s.target}</span></div>
+    </div>`;
+  });
+})();
+
+function openModal(){document.getElementById('modalOverlay').classList.add('show');}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
+</script>
+</body>
+</html>

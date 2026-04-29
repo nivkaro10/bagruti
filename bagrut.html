@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בגרנט — שיעורים פרטיים לבגרות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A56E8;
+  --blue-light: #E8EFFE;
+  --blue-mid: #3B6FEF;
+  --dark: #0F1117;
+  --gray-1: #F5F6FA;
+  --gray-2: #ECEEF5;
+  --gray-3: #D0D5E8;
+  --gray-4: #8892B0;
+  --gray-5: #4A5278;
+  --text: #1A1D2E;
+  --white: #FFFFFF;
+  --green: #0D9E6E;
+  --green-light: #E6F7F2;
+  --amber: #D97706;
+  --amber-light: #FEF3C7;
+  --red: #DC2626;
+  --shadow-sm: 0 1px 3px rgba(26,86,232,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(26,86,232,0.1), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-lg: 0 16px 48px rgba(26,86,232,0.12), 0 6px 16px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xl: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Heebo', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-2);
+  padding: 0 5%;
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--blue); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-5);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--blue); }
+.nav-cta {
+  display: flex;
+  gap: 10px;
+}
+.btn-outline {
+  padding: 8px 18px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+.btn-primary {
+  padding: 8px 20px;
+  background: var(--blue);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(26,86,232,0.3);
+}
+.btn-primary:hover {
+  background: var(--blue-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(26,86,232,0.35);
+}
+
+/* ─── HERO ─── */
+.hero {
+  background: linear-gradient(160deg, #F0F4FF 0%, #FFFFFF 60%);
+  padding: 80px 5% 70px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(26,86,232,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(13,158,110,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue-light);
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 18px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--blue);
+}
+.hero p {
+  font-size: 18px;
+  color: var(--gray-5);
+  max-width: 540px;
+  margin: 0 auto 36px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+.btn-hero {
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-hero-primary {
+  background: var(--blue);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 18px rgba(26,86,232,0.32);
+}
+.btn-hero-primary:hover {
+  background: var(--blue-mid);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26,86,232,0.38);
+}
+.btn-hero-secondary {
+  background: white;
+  color: var(--text);
+  border: 1.5px solid var(--gray-3);
+}
+.btn-hero-secondary:hover { border-color: var(--blue); color: var(--blue); }
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 52px;
+  padding-top: 32px;
+  border-top: 1px solid var(--gray-2);
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-stat-num { font-size: 26px; font-weight: 800; color: var(--text); }
+.hero-stat-label { font-size: 13px; color: var(--gray-4); margin-top: 2px; }
+
+/* ─── SUBJECTS ─── */
+.subjects-strip {
+  background: var(--gray-1);
+  padding: 28px 5%;
+  border-top: 1px solid var(--gray-2);
+  border-bottom: 1px solid var(--gray-2);
+}
+.subjects-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.subjects-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-4);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+.subject-pill {
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+.subject-pill.math { background: #EEF0FF; color: #3730A3; }
+.subject-pill.eng { background: #ECFDF5; color: #065F46; }
+.subject-pill.phys { background: #FFF7ED; color: #92400E; }
+.subject-pill.bio { background: #F0FDF4; color: #14532D; }
+.subject-pill.hist { background: #FDF4FF; color: #701A75; }
+.subject-pill.chem { background: #EFF6FF; color: #1E40AF; }
+.subject-pill.lit { background: #FFF1F2; color: #9F1239; }
+.subject-pill.geo { background: #F0FDFA; color: #134E4A; }
+.subject-pill:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+/* ─── SECTION WRAPPER ─── */
+.section {
+  padding: 72px 5%;
+}
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--gray-5);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ─── SEARCH ─── */
+.search-section { background: var(--white); }
+.search-box {
+  background: var(--white);
+  border: 1.5px solid var(--gray-3);
+  border-radius: var(--radius-xl);
+  padding: 8px 8px 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 700px;
+  margin: 0 auto 32px;
+  box-shadow: var(--shadow-md);
+}
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Heebo', sans-serif;
+  color: var(--text);
+  background: transparent;
+}
+.search-box input::placeholder { color: var(--gray-4); }
+.search-select {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: 'Heebo', sans-serif;
+  color: var(--gray-5);
+  background: var(--gray-1);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.search-btn {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.search-btn:hover { background: var(--blue-mid); }
+.filters-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.filter-chip {
+  padding: 7px 16px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-5);
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s;
+}
+.filter-chip:hover, .filter-chip.active {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-light);
+}
+
+/* ─── TEACHER CARDS ─── */
+.teachers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+  gap: 20px;
+}
+.teacher-card {
+  background: white;
+  border: 1.5px solid var(--gray-2);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  transition: all 0.25s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.teacher-card:hover {
+  border-color: var(--blue);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.teacher-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 80px; height: 80px;
+  border-radius: 0 var(--radius-xl) 0 80px;
+  opacity: 0.06;
+}
+.tc-blue::before { background: var(--blue); }
+.tc-green::before { background: var(--green); }
+.tc-amber::before { background: var(--amber); }
+.tc-purple::before { background: #7C3AED; }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.avatar {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700;
+  flex-shrink: 0;
+}
+.av-blue { background: var(--blue-light); color: var(--blue); }
+.av-green { background: var(--green-light); color: var(--green); }
+.av-amber { background: var(--amber-light); color: var(--amber); }
+.av-purple { background: #F5F3FF; color: #5B21B6; }
+
+.teacher-name { font-size: 15px; font-weight: 700; color: var(--text); }
+.teacher-exp { font-size: 12px; color: var(--gray-4); margin-top: 2px; }
+.verified-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  color: var(--green); background: var(--green-light);
+  padding: 3px 8px; border-radius: 6px; margin-top: 4px;
+}
+
+.subject-tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 6px;
+  margin-bottom: 10px;
+}
+.st-math { background: #EEF0FF; color: #3730A3; }
+.st-eng { background: #ECFDF5; color: #065F46; }
+.st-phys { background: #FFF7ED; color: #92400E; }
+.st-bio { background: #F0FDF4; color: #14532D; }
+.st-hist { background: #FDF4FF; color: #701A75; }
+
+.stars {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 13px; margin-bottom: 8px;
+}
+.star-filled { color: #F59E0B; }
+.star-count { color: var(--gray-4); font-size: 12px; }
+
+.card-details {
+  font-size: 12px;
+  color: var(--gray-5);
+  margin-bottom: 14px;
+  line-height: 1.8;
+}
+.detail-row { display: flex; align-items: center; gap: 6px; }
+
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--gray-2);
+}
+.price-tag { font-size: 18px; font-weight: 800; color: var(--text); }
+.price-tag span { font-size: 12px; font-weight: 400; color: var(--gray-4); }
+.book-btn {
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.book-btn:hover { background: var(--blue-mid); transform: scale(1.03); }
+
+/* ─── HOW IT WORKS ─── */
+.how-section { background: var(--gray-1); }
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.step-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  text-align: center;
+  border: 1.5px solid var(--gray-2);
+  transition: box-shadow 0.2s;
+}
+.step-card:hover { box-shadow: var(--shadow-md); }
+.step-num {
+  width: 44px; height: 44px;
+  background: var(--blue);
+  color: white;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800;
+  margin: 0 auto 16px;
+}
+.step-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.step-desc { font-size: 14px; color: var(--gray-5); line-height: 1.7; }
+
+/* ─── PLANS ─── */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.plan-card {
+  background: white;
+  border: 1.5px solid var(--gray-2);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  position: relative;
+  transition: all 0.25s;
+}
+.plan-card:hover { box-shadow: var(--shadow-md); }
+.plan-card.featured {
+  border: 2px solid var(--blue);
+  box-shadow: 0 8px 32px rgba(26,86,232,0.14);
+}
+.featured-badge {
+  position: absolute;
+  top: -13px;
+  right: 50%;
+  transform: translateX(50%);
+  background: var(--blue);
+  color: white;
+  font-size: 12px; font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.plan-name { font-size: 14px; font-weight: 700; color: var(--gray-5); margin-bottom: 8px; }
+.plan-price { font-size: 34px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.plan-price span { font-size: 16px; font-weight: 400; color: var(--gray-4); }
+.plan-commission {
+  font-size: 13px; font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin: 10px 0 16px;
+}
+.pc-free { background: #FEF9C3; color: #854D0E; }
+.pc-low { background: #DBEAFE; color: #1E40AF; }
+.pc-zero { background: #DCFCE7; color: #14532D; }
+.plan-divider { border: none; border-top: 1px solid var(--gray-2); margin: 16px 0; }
+.plan-feature {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--gray-5);
+  margin-bottom: 10px;
+}
+.check { width: 18px; height: 18px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.check svg { width: 10px; height: 10px; }
+.plan-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.2s;
+  border: none;
+}
+.plan-btn-primary { background: var(--blue); color: white; box-shadow: 0 3px 12px rgba(26,86,232,0.28); }
+.plan-btn-primary:hover { background: var(--blue-mid); transform: translateY(-1px); }
+.plan-btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--gray-3); }
+.plan-btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ─── REGISTER SECTION ─── */
+.register-section {
+  background: linear-gradient(135deg, #1A56E8 0%, #2563EB 50%, #1D4ED8 100%);
+  padding: 80px 5%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.register-section::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+.register-section::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -40px;
+  width: 200px; height: 200px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 50%;
+}
+.register-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.register-section h2 {
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 800;
+  color: white;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+.register-section p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 36px;
+}
+
+/* ─── REGISTER FORM ─── */
+.register-form {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 36px 32px;
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: right;
+  box-shadow: var(--shadow-lg);
+}
+.form-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.form-subtitle { font-size: 14px; color: var(--gray-4); margin-bottom: 24px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-5);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-3);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'Heebo', sans-serif;
+  color: var(--text);
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--blue); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--gray-5);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.form-check input { width: auto; }
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(26,86,232,0.32);
+}
+.submit-btn:hover {
+  background: var(--blue-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(26,86,232,0.38);
+}
+.form-legal {
+  font-size: 12px;
+  color: var(--gray-4);
+  text-align: center;
+  margin-top: 12px;
+}
+.form-legal a { color: var(--blue); }
+
+/* ─── TESTIMONIALS ─── */
+.testimonials-section { background: var(--gray-1); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.testimonial-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  border: 1.5px solid var(--gray-2);
+}
+.testimonial-stars { color: #F59E0B; font-size: 14px; margin-bottom: 12px; }
+.testimonial-text {
+  font-size: 14px;
+  color: var(--gray-5);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+.testimonial-author { display: flex; align-items: center; gap: 10px; }
+.author-avatar {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+}
+.aa-1 { background: #EEF0FF; color: #3730A3; }
+.aa-2 { background: #ECFDF5; color: #065F46; }
+.aa-3 { background: #FDF4FF; color: #701A75; }
+.author-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.author-role { font-size: 12px; color: var(--gray-4); }
+
+/* ─── FAQ ─── */
+.faq-section { background: white; }
+.faq-list { max-width: 680px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--gray-2);
+  padding: 20px 0;
+  cursor: pointer;
+}
+.faq-question {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 16px; font-weight: 600; color: var(--text);
+}
+.faq-arrow {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--gray-1);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--blue-light); }
+.faq-item.open .faq-arrow svg { color: var(--blue); }
+.faq-answer {
+  font-size: 14px;
+  color: var(--gray-5);
+  line-height: 1.8;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-answer { max-height: 200px; padding-top: 12px; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.6);
+  padding: 48px 5% 28px;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.footer-brand .logo { color: white; }
+.footer-brand p { font-size: 13px; margin-top: 10px; max-width: 220px; line-height: 1.7; }
+.footer-links h4 { color: white; font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+.footer-links a { display: block; font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; margin-bottom: 8px; transition: color 0.2s; }
+.footer-links a:hover { color: white; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ─── SUCCESS MODAL ─── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  animation: modalIn 0.3s ease;
+}
+.modal-icon {
+  width: 64px; height: 64px;
+  background: var(--green-light);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 28px;
+}
+.modal h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+.modal p { font-size: 15px; color: var(--gray-5); line-height: 1.7; }
+.modal-btn {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px; font-weight: 700;
+  font-family: 'Heebo', sans-serif;
+  cursor: pointer;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .hero-stats { gap: 20px; flex-wrap: wrap; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">בגר<span>נט</span></a>
+    <div class="nav-links">
+      <a href="#teachers">מורים</a>
+      <a href="#how">איך זה עובד</a>
+      <a href="#plans">מסלולים</a>
+      <a href="#faq">שאלות נפוצות</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-outline">כניסה</a>
+      <a href="register-teacher.html" class="btn-primary">הצטרפות מורים</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+      <div class="hero-badge">🎓 הפלטפורמה הישראלית לבגרויות</div>
+  <h1>שיעורים פרטיים לבגרות<br>עם <em>המורה הנכון</em></h1>
+  <p>מצא מורה מנוסה בכל מקצוע, קבע שיעור בזום, ועבור את הבגרות בביטחון</p>
+  <div class="hero-actions">
+    <a href="register-student.html" class="btn-hero btn-hero-primary">חפש מורה עכשיו</a>
+    <a href="register-teacher.html" class="btn-hero btn-hero-secondary">הצטרף כמורה ←</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">340+</div>
+      <div class="hero-stat-label">מורים מוסמכים</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">18</div>
+      <div class="hero-stat-label">מקצועות לבגרות</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">4.8 ★</div>
+      <div class="hero-stat-label">דירוג ממוצע</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">1,200+</div>
+      <div class="hero-stat-label">שיעורים החודש</div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS STRIP -->
+<div class="subjects-strip">
+  <div class="subjects-inner">
+    <span class="subjects-label">מקצועות:</span>
+    <span class="subject-pill math">מתמטיקה</span>
+    <span class="subject-pill eng">אנגלית</span>
+    <span class="subject-pill phys">פיזיקה</span>
+    <span class="subject-pill bio">ביולוגיה</span>
+    <span class="subject-pill hist">היסטוריה</span>
+    <span class="subject-pill chem">כימיה</span>
+    <span class="subject-pill lit">ספרות</span>
+    <span class="subject-pill geo">גיאוגרפיה</span>
+    <span class="subject-pill math">מחשבים</span>
+    <span class="subject-pill eng">ערבית</span>
+  </div>
+</div>
+
+<!-- TEACHERS SECTION -->
+<section class="section search-section" id="teachers">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">מורים</div>
+      <h2 class="section-title">מצא את המורה שלך</h2>
+      <p class="section-sub">כל המורים עברו אימות ויש להם ניסיון מוכח בהכנה לבגרויות</p>
+    </div>
+
+    <div class="search-box">
+      <input type="text" placeholder="שם מורה, מקצוע, אוניברסיטה..." id="searchInput" />
+      <select class="search-select" id="subjectFilter">
+        <option value="">כל המקצועות</option>
+        <option>מתמטיקה</option>
+        <option>אנגלית</option>
+        <option>פיזיקה</option>
+        <option>ביולוגיה</option>
+        <option>היסטוריה</option>
+        <option>כימיה</option>
+      </select>
+      <button class="search-btn">חיפוש</button>
+    </div>
+
+    <div class="filters-row">
+      <div class="filter-chip active">כולם</div>
+      <div class="filter-chip">5 יח׳ לימוד</div>
+      <div class="filter-chip">4 יח׳ לימוד</div>
+      <div class="filter-chip">זמין היום</div>
+      <div class="filter-chip">עד ₪150</div>
+      <div class="filter-chip">מורה מוסמך</div>
+    </div>
+
+    <div class="teachers-grid">
+
+      <div class="teacher-card tc-blue">
+        <div class="card-top">
+          <div class="avatar av-blue">רכ</div>
+          <div>
+            <div class="teacher-name">רותם כהן</div>
+            <div class="teacher-exp">8 שנות ניסיון · תל אביב</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-math">מתמטיקה 5 יח׳</div>
+        <div class="stars">
+          <span class="star-filled">★★★★★</span>
+          <span class="star-count">(12 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 זמין: ראשון–חמישי</div>
+          <div class="detail-row">🎓 טכניון — הנדסת מחשבים</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪180 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('רותם כהן')">קביעת שיעור</button>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-green">
+        <div class="card-top">
+          <div class="avatar av-green">מל</div>
+          <div>
+            <div class="teacher-name">מיה לוי</div>
+            <div class="teacher-exp">5 שנות ניסיון · ירושלים</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-eng">אנגלית</div>
+        <div class="stars">
+          <span class="star-filled">★★★★★</span>
+          <span class="star-count">(8 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 זמינה: כל יום</div>
+          <div class="detail-row">🎓 האוניברסיטה העברית — ספרות אנגלית</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪140 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('מיה לוי')">קביעת שיעור</button>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-amber">
+        <div class="card-top">
+          <div class="avatar av-amber">אש</div>
+          <div>
+            <div class="teacher-name">אלון שפירא</div>
+            <div class="teacher-exp">12 שנות ניסיון · חיפה</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-phys">פיזיקה 5 יח׳</div>
+        <div class="stars">
+          <span class="star-filled">★★★★</span><span style="color:#D1D5DB;">★</span>
+          <span class="star-count">(6 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 שני, רביעי, שישי</div>
+          <div class="detail-row">🎓 טכניון — פיזיקה</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪200 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('אלון שפירא')">קביעת שיעור</button>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-purple">
+        <div class="card-top">
+          <div class="avatar av-purple">נד</div>
+          <div>
+            <div class="teacher-name">נועה דוד</div>
+            <div class="teacher-exp">3 שנות ניסיון · רמת גן</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-bio">ביולוגיה</div>
+        <div class="stars">
+          <span class="star-filled">★★★★★</span>
+          <span class="star-count">(5 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 אחה״צ בלבד</div>
+          <div class="detail-row">🎓 אוניברסיטת ת״א — ביולוגיה</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪120 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('נועה דוד')">קביעת שיעור</button>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-blue">
+        <div class="card-top">
+          <div class="avatar av-blue">יב</div>
+          <div>
+            <div class="teacher-name">יוסי בן-דוד</div>
+            <div class="teacher-exp">7 שנות ניסיון · באר שבע</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-hist">היסטוריה</div>
+        <div class="stars">
+          <span class="star-filled">★★★★★</span>
+          <span class="star-count">(9 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 ראשון–שישי</div>
+          <div class="detail-row">🎓 אוניברסיטת ב״ג — היסטוריה</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪130 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('יוסי בן-דוד')">קביעת שיעור</button>
+        </div>
+      </div>
+
+      <div class="teacher-card tc-green">
+        <div class="card-top">
+          <div class="avatar av-green">שמ</div>
+          <div>
+            <div class="teacher-name">שירה מזרחי</div>
+            <div class="teacher-exp">4 שנות ניסיון · נתניה</div>
+            <div class="verified-badge">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              מורה מאומת
+            </div>
+          </div>
+        </div>
+        <div class="subject-tag st-eng">כימיה</div>
+        <div class="stars">
+          <span class="star-filled">★★★★★</span>
+          <span class="star-count">(4 ביקורות)</span>
+        </div>
+        <div class="card-details">
+          <div class="detail-row">📅 שני–שישי</div>
+          <div class="detail-row">🎓 ויצמן — כימיה</div>
+        </div>
+        <div class="card-footer">
+          <div class="price-tag">₪155 <span>/ שעה</span></div>
+          <button class="book-btn" onclick="openBook('שירה מזרחי')">קביעת שיעור</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section" id="how">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">תהליך</div>
+      <h2 class="section-title">איך זה עובד?</h2>
+      <p class="section-sub">4 צעדים פשוטים מחיפוש ועד שיעור</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">חפש מורה</div>
+        <div class="step-desc">חפש לפי מקצוע, יחידות לימוד, מחיר וזמינות. קרא ביקורות של תלמידים אחרים.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">בחר זמן</div>
+        <div class="step-desc">בחר מהלוח השיעורים הפנוי של המורה. שעה שנוחה לך, מהבית.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">שלם בבטחה</div>
+        <div class="step-desc">תשלום מאובטח דרך האתר. הכסף מועבר למורה רק אחרי השיעור.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">קישור זום אוטומטי</div>
+        <div class="step-desc">תקבל קישור זום ישירות לאימייל. פשוט להתחבר ולהתחיל ללמוד.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section" id="plans">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">למורים</div>
+      <h2 class="section-title">בחר את המסלול שלך</h2>
+      <p class="section-sub">מסלול לכל שלב — התחל בחינם, שדרג כשצומחים</p>
+    </div>
+    <div class="plans-grid">
+
+      <div class="plan-card">
+        <div class="plan-name">בסיסי</div>
+        <div class="plan-price">₪0 <span>/ חודש</span></div>
+        <div class="plan-commission pc-free">עמלה: 50% מכל שיעור</div>
+        <hr class="plan-divider">
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          פרופיל מורה מלא
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          לוח שיעורים
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          תשלום אוטומטי
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          זום אוטומטי
+        </div>
+        <button class="plan-btn plan-btn-outline" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">התחל בחינם</button>
+      </div>
+
+      <div class="plan-card featured">
+        <div class="featured-badge">הכי פופולרי</div>
+        <div class="plan-name">פרו</div>
+        <div class="plan-price">₪99 <span>/ חודש</span></div>
+        <div class="plan-commission pc-low">עמלה: 20% בלבד</div>
+        <hr class="plan-divider">
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          הכל בבסיסי
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          דירוג גבוה בחיפוש
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          תגית "מורה מוסמך"
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          סטטיסטיקות מפורטות
+        </div>
+        <button class="plan-btn plan-btn-primary" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">הצטרף לפרו</button>
+      </div>
+
+      <div class="plan-card">
+        <div class="plan-name">פרימיום</div>
+        <div class="plan-price">₪249 <span>/ חודש</span></div>
+        <div class="plan-commission pc-zero">עמלה מינימלית — פרטים בהרשמה</div>
+        <hr class="plan-divider">
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          הכל בפרו
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          דף נחיתה אישי
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          תמיכה עדיפות
+        </div>
+        <div class="plan-feature">
+          <div class="check"><svg viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#0D9E6E" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          מיתוג אישי
+        </div>
+        <button class="plan-btn plan-btn-outline" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">הצטרף לפרימיום</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">ביקורות</div>
+      <h2 class="section-title">מה אומרים עלינו</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">הפלטפורמה שינתה לי את החיים כמורה. במקום לרדוף אחרי תלמידים בוואטסאפ, הכל מסודר — לוח זמנים, תשלום, זום. פשוט עובד.</div>
+        <div class="testimonial-author">
+          <div class="author-avatar aa-1">ד״מ</div>
+          <div>
+            <div class="author-name">דנה מגן</div>
+            <div class="author-role">מורה למתמטיקה · 4 שנים בפלטפורמה</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">עברתי מחיפוש תלמידים בפייסבוק לבגרנט — ההכנסה שלי גדלה ב-60% תוך שלושה חודשים. הכלים פשוטים ולא מסובכים.</div>
+        <div class="testimonial-author">
+          <div class="author-avatar aa-2">ע״ל</div>
+          <div>
+            <div class="author-name">עמית לוי</div>
+            <div class="author-role">מורה לאנגלית · תל אביב</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">כהורה, זה הכי נוח שיש. מצאתי מורה לבת שלי לפיזיקה תוך 10 דקות, ראיתי ביקורות אמיתיות, ושילמתי בקלות. מומלץ בחום.</div>
+        <div class="testimonial-author">
+          <div class="author-avatar aa-3">ר״כ</div>
+          <div>
+            <div class="author-name">רחל כהן</div>
+            <div class="author-role">הורה לתלמידת י״ב</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER SECTION -->
+<section class="register-section" id="register">
+  <div class="register-inner">
+    <h2>הצטרף כמורה — בחינם</h2>
+    <p>התחל לקבל תלמידים עוד השבוע. ללא עלויות התחלה, ללא התחייבות.</p>
+
+    <div class="register-form">
+      <div class="form-title">הרשמת מורה</div>
+      <div class="form-subtitle">מלא פרטים ונחזור אליך תוך 24 שעות</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>שם פרטי</label>
+          <input type="text" placeholder="ישראל" id="fname" />
+        </div>
+        <div class="form-group">
+          <label>שם משפחה</label>
+          <input type="text" placeholder="ישראלי" id="lname" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>אימייל</label>
+        <input type="email" placeholder="teacher@gmail.com" id="email" />
+      </div>
+
+      <div class="form-group">
+        <label>טלפון</label>
+        <input type="tel" placeholder="05X-XXXXXXX" id="phone" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>מקצוע ראשי</label>
+          <select id="subject">
+            <option value="">בחר מקצוע</option>
+            <option>מתמטיקה</option>
+            <option>אנגלית</option>
+            <option>פיזיקה</option>
+            <option>ביולוגיה</option>
+            <option>היסטוריה</option>
+            <option>כימיה</option>
+            <option>ספרות</option>
+            <option>גיאוגרפיה</option>
+            <option>מחשבים</option>
+            <option>ערבית</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>שנות ניסיון</label>
+          <select id="experience">
+            <option value="">בחר</option>
+            <option>פחות משנה</option>
+            <option>1–3 שנים</option>
+            <option>3–7 שנים</option>
+            <option>7+ שנים</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>מחיר לשעה (₪)</label>
+        <input type="number" placeholder="150" id="price" min="50" max="500" />
+      </div>
+
+      <div class="form-group">
+        <label>ספר לנו קצת על עצמך</label>
+        <textarea placeholder="לדוגמה: בוגר/ת טכניון, מתמחה בהכנה לבגרות 5 יח׳, עזרתי ל-200+ תלמידים..." id="bio"></textarea>
+      </div>
+
+      <label class="form-check">
+        <input type="checkbox" id="terms" />
+        קראתי ואני מסכים/ה לתנאי השימוש ומדיניות הפרטיות
+      </label>
+
+      <button class="submit-btn" onclick="submitForm()">הירשם כמורה ←</button>
+      <div class="form-legal">ללא דמי הצטרפות · בחינם לתמיד בתוכנית הבסיסית</div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">שאלות</div>
+      <h2 class="section-title">שאלות נפוצות</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          איך מתבצע התשלום למורים?
+          <div class="faq-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-answer">התשלום מועבר ישירות לחשבון הבנק שלך בכל שבוע, עבור כל השיעורים שהסתיימו. הפלטפורמה מנכה את העמלה באופן אוטומטי לפני ההעברה.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          מה קורה אם תלמיד מבטל שיעור?
+          <div class="faq-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-answer">ביטול עד 24 שעות לפני השיעור — החזר מלא לתלמיד. ביטול פחות מ-24 שעות — המורה מקבל 50% מתשלום השיעור כפיצוי. ביטול בתוך שעה — המורה מקבל את התשלום המלא.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          האם צריך ניסיון קודם?
+          <div class="faq-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-answer">מספיק שיש לך ידע מוצק במקצוע ויכולת הסבר. מורים חדשים מתחילים עם ביקורת ראשונה מוגנת — תלמידים יכולים לשלם רק אחרי שהשיעור הסתיים והם מרוצים.</div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">
+          האם הפלטפורמה עובדת על נייד?
+          <div class="faq-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        </div>
+        <div class="faq-answer">כן, האתר מותאם לנייד ולטאבלט. אפליקציה ייעודית בדרך — תוכל לנהל את השיעורים, לקבל התראות ולצ׳ט עם תלמידים ישירות מהטלפון.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">בגר<span style="color:#60A5FA">נט</span></a>
+        <p>הפלטפורמה הישראלית המובילה לשיעורים פרטיים בהכנה לבגרויות.</p>
+      </div>
+      <div class="footer-links">
+        <h4>למורים</h4>
+        <a href="#register">הצטרף כמורה</a>
+        <a href="#plans">מסלולי מנוי</a>
+        <a href="#">מרכז עזרה</a>
+      </div>
+      <div class="footer-links">
+        <h4>לתלמידים</h4>
+        <a href="#teachers">חפש מורה</a>
+        <a href="#how">איך זה עובד</a>
+        <a href="#">ביקורות</a>
+      </div>
+      <div class="footer-links">
+        <h4>חברה</h4>
+        <a href="#">אודות</a>
+        <a href="#">צור קשר</a>
+        <a href="#">תנאי שימוש</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 בגרנט. כל הזכויות שמורות.</span>
+      <span>נבנה בישראל 🇮🇱</span>
+    </div>
+  </div>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-icon">✓</div>
+    <h3>נרשמת בהצלחה!</h3>
+    <p>קיבלנו את הפרטים שלך. נציג שלנו יצור איתך קשר תוך 24 שעות לסיום ההרשמה.</p>
+    <button class="modal-btn" onclick="closeModal()">סגור</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="bookModal">
+  <div class="modal">
+    <div class="modal-icon" style="background:#DBEAFE; font-size:26px;">📅</div>
+    <h3 id="bookModalTitle">קביעת שיעור עם רותם</h3>
+    <p>פרטי יצירת קשר ולוח הזמנים יישלחו אליך לאחר ההרשמה לפלטפורמה.</p>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;">
+      <button class="modal-btn" style="background:var(--blue);" onclick="document.getElementById('bookModal').classList.remove('show'); document.getElementById('register').scrollIntoView({behavior:'smooth'})">הירשם לפלטפורמה</button>
+      <button class="modal-btn" style="background:transparent;color:var(--text);border:1.5px solid var(--gray-3);" onclick="document.getElementById('bookModal').classList.remove('show')">סגור</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleFaq(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const subject = document.getElementById('subject').value;
+  const terms = document.getElementById('terms').checked;
+
+  if (!fname || !email || !subject) {
+    alert('אנא מלא את כל השדות החובה: שם, אימייל ומקצוע');
+    return;
+  }
+  if (!terms) {
+    alert('אנא אשר את תנאי השימוש');
+    return;
+  }
+  document.getElementById('successModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('successModal').classList.remove('show');
+}
+
+function openBook(name) {
+  document.getElementById('bookModalTitle').textContent = 'קביעת שיעור עם ' + name;
+  document.getElementById('bookModal').classList.add('show');
+}
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
